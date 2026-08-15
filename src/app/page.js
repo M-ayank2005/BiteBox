@@ -1,20 +1,16 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Navbar from '@/Components/Navbar'
 import Footer from '@/Components/Footer'
-import Section from '@/Components/Section'
 import Card from '@/Components/card'
 import { useDarkMode } from './DarkModeContext'
 import { useRouter } from 'next/navigation'
 import { 
-  ChefHat, 
   Utensils, 
   Video, 
   MessageCircle, 
   PenSquare, 
   ShoppingCart, 
-  Sparkles, 
   ArrowRight,
   Flame,
   Award
@@ -42,7 +38,7 @@ export default function Home() {
   const [charIndex, setCharIndex] = useState(0)
   const [isPausing, setIsPausing] = useState(false)
 
-  // Show only 3-4 featured recipes on Home page
+  // Show only 4 featured recipes on Home page
   const featuredRecipes = recipes.slice(0, 4);
 
   useEffect(() => {
@@ -83,8 +79,8 @@ export default function Home() {
     {
       title: 'AI Fridge Chef',
       desc: 'Cook with what you have! Enter pantry ingredients to get instant recipes.',
-      icon: Sparkles,
-      color: 'bg-emerald-500 text-white',
+      icon: Utensils,
+      color: 'bg-emerald-600 text-white',
       link: '/menu'
     },
     {
@@ -105,41 +101,39 @@ export default function Home() {
       title: 'AI Culinary Assistant',
       desc: 'Chat 24/7 with your personal AI chef for cooking advice and ingredient subs.',
       icon: MessageCircle,
-      color: 'bg-indigo-500 text-white',
+      color: 'bg-indigo-600 text-white',
       link: '/chat'
     },
     {
       title: 'Publish Recipe',
       desc: 'Share your recipes with our rich open-source WYSIWYG formatting editor.',
       icon: PenSquare,
-      color: 'bg-blue-500 text-white',
+      color: 'bg-blue-600 text-white',
       link: user ? '/postrecipe' : '/LoginPage'
     },
     {
       title: 'Smart Shopping List',
       desc: 'Manage saved grocery items exported from recipes and AI meal plans.',
       icon: ShoppingCart,
-      color: 'bg-teal-500 text-white',
+      color: 'bg-teal-600 text-white',
       link: '/profile'
     },
     {
       title: 'Chef Profiles & Badges',
       desc: 'Earn community badges for hosting streams, tracking macros, and posting recipes.',
       icon: Award,
-      color: 'bg-purple-500 text-white',
+      color: 'bg-purple-600 text-white',
       link: '/profile'
     }
   ];
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
-      <Navbar />
-
-      {/* Clean Hero Section (No Heavy Gradients) */}
+      {/* Hero Section */}
       <div className={`py-16 px-4 sm:px-6 lg:px-8 border-b ${darkMode ? 'bg-gray-800/50 border-gray-800' : 'bg-white border-gray-200'}`}>
         <div className="max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto">
-            <ChefHat className="w-4 h-4" /> Welcome to BiteBox Community
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto">
+            Welcome to BiteBox Community
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
@@ -147,7 +141,7 @@ export default function Home() {
             <span className="animate-pulse">|</span> Foodie?
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Your all-in-one AI culinary hub. Plan healthy meals, cook step-by-step, stream live, and manage smart grocery lists.
           </p>
 
@@ -165,7 +159,7 @@ export default function Home() {
                 darkMode ? 'border-gray-700 bg-gray-800 hover:bg-gray-700 text-white' : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-amber-500" /> AI Diet Planner
+              AI Diet Planner
             </button>
           </div>
         </div>
