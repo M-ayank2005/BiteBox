@@ -6,193 +6,100 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import { useDarkMode } from "../DarkModeContext";
+import { Send, Bot, User, Sparkles, RefreshCw, Trash2, ChefHat, ArrowRight } from "lucide-react";
 
 function Chat() {
-  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const [input, setInput] = useState("");
-  const [ready, setReady] = useState(false);
-  const [answer, setAnswer] = useState("");
-  const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showQuickOptions, setShowQuickOptions] = useState(true);
+  const [messages, setMessages] = useState([
+    {
+      role: "bot",
+      text: "👋 **Hello! I'm BiteBox AI**, your personal culinary companion and nutritionist. How can I assist your cooking or diet today?"
+    }
+  ]);
+
   const chatEndRef = useRef(null);
-  const historyRef = useRef([]);
-  const [quickoption, setQuickoption] = useState(true)
-  const [chatbotheader, setChatbotheader] = useState(true)
-  const [count, setCount] = useState(0);
-  const { darkMode } = useDarkMode()
-  
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_API_KEY });
+  const { darkMode } = useDarkMode();
+
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  const aiRef = useRef(null);
 
   useEffect(() => {
-    async function checkModels() {
-      try {
-        const response = await ai.models.list();
-        console.log("Available Models:", response);
-      } catch (e) {
-        console.error("Failed to list models:", e);
-      }
+    if (apiKey) {
+      aiRef.current = new GoogleGenAI({ apiKey });
     }
-    checkModels();
-  }, []);
+  }, [apiKey]);
 
-  // More conversational and flexible system prompts
-  const SYSTEM_PROMPTS = [
-    "You are BiteBox AI, a friendly and professional culinary assistant.",
-    "Engage in natural conversation while being helpful and informative.",
-    "Use markdown for formatting and emojis for a friendly tone.",
-    "You can discuss a wide range of topics, not just cooking, but always be ready to provide culinary insights.",
-    "Use emojis to add warmth to your communication when appropriate.",
-    "Start conversations casually and be adaptable to the user's tone.",
-    "If a user asks about cooking, provide helpful and engaging advice.",
-    "Your responses should feel like talking to a knowledgeable friend who loves food."
-  ];
-
-  const cleanResponse = (responseText) => {
-    // Remove any leading asterisks or colons
-    let cleaned = responseText.replace(/^[\*:]+/, '').trim();
-
-    // Ensure the first letter is capitalized
-    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-  };
-
-  const generateInitialGreeting = () => {
-    const greetings = [
-      "Hey there! 👋 I'm BiteBox AI, your culinary companion. How can I help you today ?",
-      "Hi! 🍳 Welcome to BiteBox AI. I'm here to chat about anything food-related or just have a friendly conversation!",
-      "Hello! 🥘 Ready to explore some culinary magic or just have a chat? I'm all ears!"
-    ];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  };
-
-  useEffect(() => {
-    setAnswer("Initializing BiteBox AI...");
-
-    const p1 = SYSTEM_PROMPTS.join(" ") +
-      " Prepare to interact naturally with the user.";
-    const p3 = "Acknowledge your role and be ready for a friendly, helpful conversation.";
-
-    async function generateInitial() {
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
-          contents: p1,
-        });
-        const text = response.text;
-
-        const botResponse = cleanResponse(text);
-        historyRef.current.push(
-          { role: "user", text: p1 },
-          { role: "bot", text: botResponse }
-        );
-
-        await generateInitial3();
-      } catch (error) {
-        console.error("Initialization error:", error);
-        setAnswer("Failed to initialize. Please try again.");
-      }
-    }
-
-    async function generateInitial3() {
-      const prompt = `${historyRef.current
-        .map((entry) => `${entry.role}: ${entry.text}`)
-        .join("\n")}\nUser: ${p3}`;
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
-          contents: prompt,
-        });
-        const text = response.text;
-
-        const botResponse = cleanResponse(text);
-        historyRef.current.push(
-          { role: "user", text: p3 },
-          { role: "bot", text: generateInitialGreeting() }
-        );
-
-        setHistory([...historyRef.current]);
-        setInput("");
-        setAnswer("Ready to chat!");
-        setReady(true);
-      } catch (error) {
-        console.error("Initialization error:", error);
-        setAnswer("Failed to initialize. Please try again.");
-      }
-    }
-
-    generateInitial();
-  }, []);
-
-
-
-  //function for quick option
-  async function handleDivClick(message) {
-    // Set the clicked message to input
-    // console.log(message);  
-    setInput(message);
-    // setQuickoption(false);
-    await handleSendMessage(message);
-
-  }
-  
-
-  async function handleSendMessage(inputMessage = null) {
-    const messageToSend = (input || inputMessage || "").toString().trim();
-    
-    if (!ready) {
-      alert("Please wait while the AI is preparing...");
-      return;
-    }
-
-    if (!messageToSend) {
-      alert("Please enter a message before sending.");
-      return;
-    }
-
-    setAnswer("");
-
-    // Generate the conversational prompt
-    const prompt = `Conversation Context:
-  ${history
-        .map((entry) => `${entry.role}: ${entry.text}`)
-        .join("\n")}
-  User: ${messageToSend}
-  
-  Respond in a friendly, natural manner. Use markdown for formatting if needed. Add emojis to make the conversation engaging.`;
-
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-      const text = response.text;
-
-      const botResponse = cleanResponse(text);
-      
-      setHistory((prevHistory) => [
-        ...prevHistory,
-        { role: "user", text: messageToSend },
-        { role: "bot", text: botResponse },
-      ]);
-
-      setInput(""); // Clear the input after sending the message
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      setCount(count+1);
-      if (count == 1) {
-        setChatbotheader(false)
-      }
-    } catch (error) {
-      console.error("Chat error:", error);
-      setAnswer("An error occurred. Please try again.");
-      alert("Something went wrong. Please rephrase your request.");
-    }
-    
-  }
-
-
+  // Auto-scroll to bottom of chat
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [history]);
+  }, [messages, isLoading]);
 
-  // Enhanced markdown components for professional rendering
+  const quickPrompts = [
+    { emoji: "🥗", text: "Suggest a healthy 15-min dinner recipe" },
+    { emoji: "🌶️", text: "Got rice, eggs & spinach. What can I cook?" },
+    { emoji: "🍰", text: "Quick low-calorie dessert ideas?" },
+    { emoji: "🏋️‍♂️", text: "High-protein meal plan for muscle building" }
+  ];
+
+  const handleSendMessage = async (userPrompt = null) => {
+    const textToSend = (userPrompt || input).trim();
+    if (!textToSend || isLoading) return;
+
+    // Hide quick options after first user message
+    setShowQuickOptions(false);
+
+    // Add User Message to Chat History
+    const updatedMessages = [...messages, { role: "user", text: textToSend }];
+    setMessages(updatedMessages);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      if (!aiRef.current) {
+        throw new Error("Gemini API key is not configured.");
+      }
+
+      // Build conversation history prompt
+      const conversationHistory = updatedMessages.map(m => `${m.role === 'user' ? 'User' : 'BiteBox AI'}: ${m.text}`).join("\n\n");
+
+      const systemContext = `You are BiteBox AI, an expert chef, nutritionist, and friendly food companion.
+Provide helpful, encouraging, and detailed answers about recipes, culinary techniques, meal planning, and nutrition.
+Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm and conversational.`;
+
+      const fullPrompt = `${systemContext}\n\n${conversationHistory}\n\nBiteBox AI:`;
+
+      const response = await aiRef.current.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: fullPrompt,
+      });
+
+      const replyText = response.text || "I couldn't generate a response. Please try rephrasing.";
+
+      setMessages(prev => [...prev, { role: "bot", text: replyText }]);
+    } catch (error) {
+      console.error("AI Chat error:", error);
+      setMessages(prev => [
+        ...prev,
+        { role: "bot", text: "⚠️ Oops! Something went wrong connecting to BiteBox AI. Please check your network or try again." }
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleClearChat = () => {
+    setMessages([
+      {
+        role: "bot",
+        text: "👋 Chat reset! What culinary questions or recipes would you like to explore now?"
+      }
+    ]);
+    setShowQuickOptions(true);
+  };
+
+  // Custom Markdown components
   const MarkdownComponents = {
     code({ node, inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '');
@@ -201,174 +108,182 @@ function Chat() {
           style={materialDark}
           language={match[1]}
           PreTag="div"
-          className="rounded-lg overflow-x-auto"
+          className="rounded-xl my-2 text-sm"
           {...props}
         >
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       ) : (
-        <code
-          className={`${className} bg-gray-100 text-red-600 px-1 rounded`}
-          {...props}
-        >
+        <code className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
           {children}
         </code>
       );
     },
-    strong: ({ children }) => (
-      <strong className="font-bold text-emerald-700">{children}</strong>
-    ),
-    em: ({ children }) => (
-      <em className="italic text-emerald-600">{children}</em>
-    ),
-    h1: ({ children }) => (
-      <h1 className="text-2xl font-bold text-emerald-700 mb-4 border-b pb-2">{children}</h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-xl font-semibold text-emerald-600 mb-3 border-b pb-1">{children}</h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="text-lg font-medium text-emerald-500 mb-2">{children}</h3>
-    ),
-    ul: ({ children }) => (
-      <ul className="list-disc list-inside mb-3 pl-4 space-y-1">{children}</ul>
-    ),
-    ol: ({ children }) => (
-      <ol className="list-decimal list-inside mb-3 pl-4 space-y-1">{children}</ol>
-    ),
-    p: ({ children }) => (
-      <p className=" leading-relaxed">{children}</p>
-    ),
-    a: ({ node, ...props }) => (
-      <a
-        {...props}
-        className="text-emerald-600 hover:underline hover:text-emerald-800"
-        target="_blank"
-        rel="noopener noreferrer"
-      />
-    ),
+    h1: ({ children }) => <h1 className="text-2xl font-bold mb-3 text-yellow-500">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-xl font-bold mb-2 text-yellow-500">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-lg font-bold mb-2 text-yellow-500">{children}</h3>,
+    p: ({ children }) => <p className="mb-2 leading-relaxed">{children}</p>,
+    ul: ({ children }) => <ul className="list-disc list-inside mb-3 space-y-1">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal list-inside mb-3 space-y-1">{children}</ol>,
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-emerald-500 pl-4 py-2 my-4 bg-gray-50 italic">
+      <blockquote className="border-l-4 border-yellow-500 pl-4 py-1 my-2 italic text-gray-600 dark:text-gray-300">
         {children}
       </blockquote>
-    ),
+    )
   };
 
   return (
-    <div className={`w-full h-[92vh] flex flex-col ${darkMode ? "bg-gray-900 " : "bg-gray-100"} relative`}>
-      {/* Header */}
-      {chatbotheader ?
-        (<div className="fixed w-full sm:w-[80vh] z-50">
-          <header className="bg-emerald-600 text-white p-4 pr-4 pl-4 sm:pr-10 sm:pl-10 shadow-md flex justify-between items-center w-[95%] sm:w-[80%] mx-auto mt-3 mb-6 rounded-full">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold">BiteBox AI</h1>
-              <p className="text-xs sm:text-sm text-white/80">Your Culinary Companion</p>
-            </div>
-            <div className="text-xs sm:text-sm text-white/80">Powered by Gemini</div>
-          </header>
-        </div>)
-        : null}
+    <div className={`w-full h-[calc(100vh-4rem)] flex flex-col transition-colors duration-300 ${
+      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
+    }`}>
+      {/* Top Header Bar */}
+      <header className={`px-6 py-4 border-b flex items-center justify-between shadow-sm sticky top-0 z-10 ${
+        darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white shadow">
+            <ChefHat className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-lg font-extrabold flex items-center gap-2">
+              BiteBox Culinary AI
+              <span className="text-xs bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-2 py-0.5 rounded-full font-bold">
+                Gemini 2.5
+              </span>
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Ask about recipes, ingredients, macros & meal prep</p>
+          </div>
+        </div>
 
-      {/* Chat Container */}
-      <div className={`flex-1 overflow-y-auto p-6 mt-4 space-y-4`}>
-        {history.length > 2 &&
-          history.slice(4).map((message, index) => (
+        <button
+          onClick={handleClearChat}
+          className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+          title="Clear Conversation"
+        >
+          <Trash2 className="w-4 h-4" />
+          <span className="hidden sm:inline">Reset Chat</span>
+        </button>
+      </header>
+
+      {/* Main Chat Messages Container */}
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+        <div className="max-w-4xl mx-auto space-y-4">
+          {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"
-                }`}
+              className={`flex items-start gap-3 ${
+                message.role === "user" ? "flex-row-reverse" : "flex-row"
+              }`}
             >
-              <div
-                className={`max-w-[80%] p-4 rounded-2xl shadow-md ${message.role === "user"
-                  ? `${darkMode ? "bg-emerald-700" : "bg-emerald-500"} text-white`
-                  : ` border ${darkMode ? "bg-gray-700 text-white" : "bg-gray-200 text-gray-800"}`
-                  }`}
-              >
+              {/* Avatar Icon */}
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-xs shadow ${
+                message.role === "user" ? "bg-yellow-500" : "bg-emerald-600"
+              }`}>
+                {message.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+              </div>
+
+              {/* Message Bubble */}
+              <div className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl shadow-sm text-sm sm:text-base leading-relaxed ${
+                message.role === "user"
+                  ? "bg-yellow-500 text-white rounded-tr-none"
+                  : `${darkMode ? "bg-gray-800 text-gray-100 border border-gray-700" : "bg-white text-gray-800 border border-gray-200"} rounded-tl-none`
+              }`}>
                 <ReactMarkdown
                   components={MarkdownComponents}
                   remarkPlugins={[remarkGfm]}
-                  className="prose max-w-full"
                 >
                   {message.text}
                 </ReactMarkdown>
               </div>
             </div>
           ))}
-        <div ref={chatEndRef} />
+
+          {/* Typing Loading Indicator */}
+          {isLoading && (
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs shadow">
+                <Bot className="w-4 h-4 animate-spin" />
+              </div>
+              <div className={`p-4 rounded-2xl rounded-tl-none border shadow-sm ${
+                darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+              }`}>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
+                  <span>BiteBox AI is cooking a response...</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div ref={chatEndRef} />
+        </div>
       </div>
 
-      {/* Input Area */}
-      <div className={`${darkMode ? "bg-gray-950 " : "bg-white border-t"} p-4 shadow-inner`}>
-      {quickoption ? (
-        <div className={` ${darkMode ? "text-white" : "text-black"} flex flex-col justify-center items-center`}>
-          <div className="text-black w-full px-2">
-            <div className="flex items-center justify-center">
-              <h2 className={`${darkMode ? "text-white" : "text-black"} font-bold text-base sm:text-xl mb-3 text-center`}>
-                Feeling Hungry? Here Are Some Quick Options! 🍔🍕
-              </h2>
-            </div>
-            <div className="flex flex-wrap items-center justify-center space-x-2 sm:space-x-3 text-xs">
-              <div
-                className={`border border-gray-400 ${darkMode ? "bg-gray-300 " : null} p-2 rounded-full transition ease-in-out hover:scale-105 hover:bg-yellow-100 hover:border-2 mb-2`}
-                onClick={() => handleDivClick("Feeling spicy 🌶️. Any ideas?")}
+      {/* Quick Prompt Pills (Only visible before user sends first message) */}
+      {showQuickOptions && (
+        <div className="px-4 py-2 max-w-4xl mx-auto w-full">
+          <p className="text-xs font-semibold mb-2 text-gray-500 dark:text-gray-400 text-center sm:text-left">
+            Need inspiration? Tap a quick option:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {quickPrompts.map((prompt, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSendMessage(prompt.text)}
+                className={`p-3 rounded-xl border text-xs sm:text-sm text-left flex items-center justify-between transition-all hover:scale-[1.01] ${
+                  darkMode
+                    ? "bg-gray-800 border-gray-700 hover:border-yellow-500 text-gray-200"
+                    : "bg-white border-gray-200 hover:border-yellow-500 text-gray-700"
+                } shadow-sm group`}
               >
-                Craving dessert 🍰. Quick recipe?
-              </div>
-              <div
-                className={`border border-gray-400 ${darkMode ? "bg-gray-300 " : null} p-2 rounded-full transition ease-in-out hover:scale-105 hover:bg-yellow-100 hover:border-2 mb-2`}
-                onClick={() => handleDivClick("Got rice and veggies. What to cook?")}
-              >
-                Got rice and veggies. What to cook?
-              </div>
-              <div
-                className={`border border-gray-400 ${darkMode ? "bg-gray-300 " : null} p-2 rounded-full transition ease-in-out hover:scale-105 hover:bg-yellow-100 hover:border-2 mb-2`}
-                onClick={() => handleDivClick("Dish to impress family?")}
-              >
-                Dish to impress family?
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-center space-x-2 sm:space-x-3 text-xs">
-              <div
-                className={`border border-gray-400 ${darkMode ? "bg-gray-300 " : null} p-2 rounded-full transition ease-in-out hover:scale-105 hover:bg-yellow-100 hover:border-2 mb-2`}
-                onClick={() => handleDivClick("Suggest something unique to try!")}
-              >
-                Suggest something unique to try!
-              </div>
-              <div
-                className={`border border-gray-400 ${darkMode ? "bg-gray-300 " : null} p-2 rounded-full transition ease-in-out hover:scale-105 hover:bg-yellow-100 hover:border-2 mb-2`}
-                onClick={() => handleDivClick("Quick 10-min snack?")}
-              >
-                Quick 10-min snack?
-              </div>
-            </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-base">{prompt.emoji}</span>
+                  <span className="font-medium">{prompt.text}</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-yellow-500 transition" />
+              </button>
+            ))}
           </div>
         </div>
-      ) : null}
+      )}
 
-        <div className="flex space-x-4 max-w-4xl mx-auto">
+      {/* Input Form Bar */}
+      <div className={`p-4 border-t sticky bottom-0 z-10 ${
+        darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+      }`}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSendMessage();
+          }}
+          className="max-w-4xl mx-auto flex gap-3"
+        >
           <input
             type="text"
-            className="flex-1 p-3 border text-black  border-gray-400 rounded-xl focus:ring-2 focus:ring-emerald-500 transition-all"
-            placeholder="Ask me anything about food, cooking, or just chat! 🍽️"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+            placeholder="Ask about recipes, ingredients, dietary plans..."
+            className={`flex-1 p-3.5 rounded-xl border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 transition ${
+              darkMode
+                ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+            }`}
+            disabled={isLoading}
           />
           <button
-            onClick={handleSendMessage}
-            className="bg-emerald-600 text-white px-6 py-3 rounded-xl hover:bg-emerald-700 transition-colors"
+            type="submit"
+            disabled={isLoading || !input.trim()}
+            className={`px-6 py-3.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl flex items-center gap-2 transition shadow active:scale-95 ${
+              isLoading || !input.trim() ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Send
+            <Send className="w-5 h-5" />
+            <span className="hidden sm:inline">Send</span>
           </button>
-        </div>
-        {answer && (
-          <p className="text-center text-sm text-gray-500 mt-2">{answer}</p>
-        )}
+        </form>
       </div>
     </div>
   );
 }
 
 export default Chat;
-
-

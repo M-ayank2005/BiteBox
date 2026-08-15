@@ -5,15 +5,18 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/legacy/image";
 import { UserAuth } from "../context/AuthContext";
-import { Heart, Search, X } from "lucide-react";
+import { Heart, Search, X, Filter, Sparkles, Clock, Flame, Utensils, RefreshCw } from "lucide-react";
 import Loader from "@/Components/loader";
 import { useDarkMode } from "../DarkModeContext";
 
 const RecipesPage = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedHealthFilter, setSelectedHealthFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const { user } = UserAuth();
   const { darkMode } = useDarkMode();
@@ -32,196 +35,202 @@ const RecipesPage = () => {
     "Soup"
   ];
 
+  const healthFilters = [
+    { id: "All", label: "All Recipes" },
+    { id: "protein", label: "🥗 High Protein" },
+    { id: "keto", label: "🥑 Keto / Low Carb" },
+    { id: "diabetic", label: "🩺 Diabetic Friendly" },
+    { id: "sodium", label: "🫀 Low Sodium" },
+    { id: "vegan", label: "🌱 Vegan" },
+    { id: "quick", label: "⏱️ Under 20 Mins" }
+  ];
+
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_API}/api/recipes?limit=100`
-        );
-        setRecipes(response.data);
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || "http://localhost:5000";
+        const response = await axios.get(`${backendUrl}/api/recipes?limit=100`);
+        setRecipes(response.data || []);
       } catch (error) {
         console.error("Error fetching recipes:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchRecipes();
   }, []);
 
-  // Memoized filtering - prevents unnecessary recalculations
+  // Multi-Filter Logic: Category + Health Filter + Search Query
   const filteredRecipes = useMemo(() => {
     let filtered = recipes;
 
-    // Filter by category
+    // Filter by Category
     if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (recipe) => recipe.category === selectedCategory
-      );
+      filtered = filtered.filter((recipe) => recipe.category === selectedCategory);
     }
 
-    // Filter by search query
+    // Filter by Health & Dietary Tag
+    if (selectedHealthFilter !== "All") {
+      filtered = filtered.filter((recipe) => {
+        const textToSearch = `${recipe.title} ${recipe.category} ${recipe.content || ''}`.toLowerCase();
+        switch (selectedHealthFilter) {
+          case "protein":
+            return textToSearch.includes("protein") || textToSearch.includes("chicken") || textToSearch.includes("egg") || textToSearch.includes("steak") || textToSearch.includes("tofu");
+          case "keto":
+            return textToSearch.includes("keto") || textToSearch.includes("low carb") || textToSearch.includes("avocado") || textToSearch.includes("cheese");
+          case "diabetic":
+            return textToSearch.includes("diabetic") || textToSearch.includes("low gi") || textToSearch.includes("sugar-free");
+          case "sodium":
+            return textToSearch.includes("low sodium") || textToSearch.includes("heart") || textToSearch.includes("fresh");
+          case "vegan":
+            return textToSearch.includes("vegan") || textToSearch.includes("plant") || textToSearch.includes("salad") || textToSearch.includes("veggie");
+          case "quick":
+            return textToSearch.includes("15") || textToSearch.includes("20") || textToSearch.includes("quick") || textToSearch.includes("fast");
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Filter by Search Query
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter((recipe) =>
-        recipe.title.toLowerCase().includes(query)
+        recipe.title.toLowerCase().includes(query) ||
+        (recipe.category && recipe.category.toLowerCase().includes(query))
       );
     }
 
     return filtered;
-  }, [recipes, selectedCategory, searchQuery]);
+  }, [recipes, selectedCategory, selectedHealthFilter, searchQuery]);
 
-  // Get search suggestions
+  // Search Suggestions
   const searchSuggestions = useMemo(() => {
     if (searchQuery.trim() === "" || !showSuggestions) return [];
-    
     const query = searchQuery.toLowerCase();
     return recipes
       .filter((recipe) => recipe.title.toLowerCase().includes(query))
-      .slice(0, 5) // Limit to 5 suggestions
+      .slice(0, 5)
       .map((recipe) => recipe.title);
   }, [recipes, searchQuery, showSuggestions]);
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setShowSuggestions(true);
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion);
-    setShowSuggestions(false);
-  };
-
-  const clearSearch = () => {
-    setSearchQuery("");
-    setShowSuggestions(false);
-  };
 
   const handleRecipeClick = (recipe) => {
     router.push(`/view?id=${encodeURIComponent(recipe._id)}`);
   };
 
-  const handlePostRecipeClick = async () => {
-    try {
-      // Wait for 3 seconds to check user status
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+  const handleRemixRecipe = (recipe) => {
+    if (!user) {
+      alert("Please login to remix recipes!");
+      router.push("/LoginPage");
+      return;
+    }
+    // Route to postrecipe with remix prepopulated
+    router.push(`/postrecipe?remixId=${encodeURIComponent(recipe._id)}&title=${encodeURIComponent("Remix of " + recipe.title)}`);
+  };
 
-      if (user) {
-        router.push("/postrecipe");
-      } else {
-        alert("Only Registered Users can Post :)");
-        router.push("/LoginPage");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+  const handlePostRecipeClick = () => {
+    if (user) {
+      router.push("/postrecipe");
+    } else {
+      alert("Only Registered Users can Post :)");
+      router.push("/LoginPage");
     }
   };
 
   const likeClick = async (e, recipeId) => {
-    e.stopPropagation(); // Prevent triggering the recipe card click
+    e.stopPropagation();
 
     if (!user) {
       alert("Please login to like recipes");
       return;
     }
 
-    const userId = user.email; // Use user email as the unique userId
-    const recipe = recipes.find((recipe) => recipe._id === recipeId);
+    const userId = user.email;
+    const recipe = recipes.find((r) => r._id === recipeId);
     if (!recipe) return;
 
-    // Check if the user already liked the recipe
-    const alreadyLiked =
-      Array.isArray(recipe.likes) && recipe.likes.some((like) => like.userId === userId);
+    const alreadyLiked = Array.isArray(recipe.likes) && recipe.likes.some((like) => like.userId === userId);
 
     if (alreadyLiked) {
       alert("You have already liked this recipe!");
       return;
     }
 
-    // Optimistically update the UI for like count and heart color
-    setRecipes((prevRecipes) =>
-      prevRecipes.map((recipe) =>
-        recipe._id === recipeId
-          ? { ...recipe, likes: [...recipe.likes, { userId }] }
-          : recipe
+    // Optimistic UI update
+    setRecipes((prev) =>
+      prev.map((r) =>
+        r._id === recipeId ? { ...r, likes: [...(r.likes || []), { userId }] } : r
       )
     );
 
-    // Send the like request to the backend
     try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/api/recipes/${recipeId}/like`,
-        { userId }
-      );
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || "http://localhost:5000";
+      const response = await axios.put(`${backendUrl}/api/recipes/${recipeId}/like`, { userId });
 
-      // Update the recipes state with the new likes after server response
-      setRecipes((prevRecipes) =>
-        prevRecipes.map((recipe) =>
-          recipe._id === recipeId
-            ? { ...recipe, likes: response.data.likes }
-            : recipe
-        )
+      setRecipes((prev) =>
+        prev.map((r) => (r._id === recipeId ? { ...r, likes: response.data.likes } : r))
       );
     } catch (error) {
       console.error("Error liking recipe:", error);
-      // Revert UI change if there was an error
-      setRecipes((prevRecipes) =>
-        prevRecipes.map((recipe) =>
-          recipe._id === recipeId ? { ...recipe, likes: recipe.likes.slice(0, -1) } : recipe
-        )
-      );
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      {/* Header with Title and Post Recipe Button */}
-      <div className="flex justify-between items-center m-6 mb-6">
-        <h1 className="text-3xl font-bold">Recipes</h1>
-        <button
-          onClick={handlePostRecipeClick}
-          className="bg-blue-500 text-white ml-2 md:ml-0 md:text-sm text-xs px-4 py-2 rounded-xl hover:bg-blue-600"
-        >
-          Post New Recipe
-        </button>
-      </div>
+    <div className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
+    }`}>
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header & Post Button */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-amber-500 dark:bg-gray-800 text-white p-8 rounded-3xl shadow-lg border border-amber-600 dark:border-gray-700">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-100 mb-1">
+              <Utensils className="w-4 h-4" /> Recipe Explorer & Community Remixes
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Discover Delicious Recipes</h1>
+            <p className="text-amber-100 dark:text-gray-300 text-sm mt-1">Search, filter by dietary requirements, or remix community recipes.</p>
+          </div>
 
-      {/* Search Bar */}
-      <div className="mx-6 mb-6 flex justify-end">
-        <div className="relative w-full md:w-64">
-          <svg
-            className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <button
+            onClick={handlePostRecipeClick}
+            className="px-6 py-3.5 bg-white text-amber-600 hover:bg-amber-50 font-bold rounded-full shadow transition active:scale-95 text-sm"
           >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            placeholder="Search Here"
-            className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black bg-white"
-          />
-          
+            + Post New Recipe
+          </button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative max-w-2xl mx-auto">
+          <div className="relative flex items-center">
+            <Search className="absolute left-4 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setShowSuggestions(true); }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              placeholder="Search by recipe name, ingredient, or keyword..."
+              className={`w-full pl-12 pr-10 py-3.5 rounded-full border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 transition shadow-sm ${
+                darkMode ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
+              }`}
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="absolute right-4 text-gray-400 hover:text-gray-600">
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+
           {/* Search Suggestions Dropdown */}
           {showSuggestions && searchSuggestions.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+            <div className={`absolute z-20 w-full mt-2 rounded-2xl shadow-xl border overflow-hidden ${
+              darkMode ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-200 text-gray-900"
+            }`}>
               {searchSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-black border-b border-gray-100 last:border-b-0"
+                  onClick={() => { setSearchQuery(suggestion); setShowSuggestions(false); }}
+                  className="px-5 py-3 hover:bg-yellow-500/10 cursor-pointer text-sm font-medium border-b border-gray-100 dark:border-gray-700/50 last:border-b-0"
                 >
                   {suggestion}
                 </div>
@@ -229,117 +238,151 @@ const RecipesPage = () => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Category Filter */}
-      <div className="mx-6 mb-8">
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
+        {/* Health & Dietary Multi-Filter Tabs */}
+        <div className="space-y-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-yellow-500 flex items-center gap-1.5">
+            <Filter className="w-3.5 h-3.5" /> Health & Dietary Filters
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {healthFilters.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => setSelectedHealthFilter(filter.id)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition border ${
+                  selectedHealthFilter === filter.id
+                    ? "bg-yellow-500 text-white border-yellow-500 shadow-md"
+                    : `${darkMode ? "bg-gray-800 border-gray-700 text-gray-300" : "bg-white border-gray-300 text-gray-700"} hover:border-yellow-500`
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Categories Bar */}
+        <div className="space-y-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1.5">
+            <Utensils className="w-3.5 h-3.5" /> Meal Category
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-xs font-semibold transition ${
+                  selectedCategory === category
+                    ? "bg-yellow-600 text-white shadow"
+                    : `${darkMode ? "bg-gray-800 text-gray-300 hover:bg-gray-700" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results Counter */}
+        <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 border-b pb-3 dark:border-gray-800">
+          <span>Showing <strong>{filteredRecipes.length}</strong> recipes</span>
+          {(selectedCategory !== "All" || selectedHealthFilter !== "All" || searchQuery) && (
             <button
-              key={category}
-              onClick={() => handleCategoryClick(category)}
-              className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
-                selectedCategory === category
-                  ? "bg-blue-500 text-white shadow-lg transform scale-105"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-              }`}
+              onClick={() => { setSelectedCategory("All"); setSelectedHealthFilter("All"); setSearchQuery(""); }}
+              className="text-yellow-500 hover:underline font-bold"
             >
-              {category}
+              Reset Filters
             </button>
-          ))}
+          )}
         </div>
-      </div>
 
-      {/* Results count */}
-      <div className="mx-6 mb-4">
-        <p className="text-gray-600 dark:text-gray-400">
-          Showing {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? "s" : ""}
-          {selectedCategory !== "All" && ` in ${selectedCategory}`}
-          {searchQuery && ` matching "${searchQuery}"`}
-        </p>
-      </div>
+        {loading && (
+          <div className="w-full py-16 flex items-center justify-center">
+            <Loader />
+          </div>
+        )}
 
-      {recipes.length === 0 && (<div className="w-full"><Loader/></div>)}
-      
-      {/* No results message */}
-      {recipes.length > 0 && filteredRecipes.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-xl text-gray-500 dark:text-gray-400">
-            No recipes found. Try a different search or category.
-          </p>
-        </div>
-      )}
+        {/* Empty State */}
+        {!loading && filteredRecipes.length === 0 && (
+          <div className="text-center py-16 space-y-3">
+            <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+            <h3 className="text-xl font-bold">No recipes found matching your filters</h3>
+            <p className="text-sm text-gray-500">Try clearing your search query or selecting another dietary tag.</p>
+          </div>
+        )}
 
-      {/* Recipe Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredRecipes.length > 0 && (
-          <>
-            {filteredRecipes.map((recipe) => (
+        {/* Recipe Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredRecipes.map((recipe) => (
             <div
               key={recipe._id}
-              className={`rounded-lg shadow-lg overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 ${
-                darkMode ? 'bg-gray-800' : 'bg-white'
+              onClick={() => handleRecipeClick(recipe)}
+              className={`group cursor-pointer rounded-3xl overflow-hidden shadow-lg border transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl flex flex-col justify-between ${
+                darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
               }`}
             >
-              {/* Cover Image */}
-                      <div className="relative w-full h-48">
-                      <Image
-                        src={recipe.coverImage}
-                        alt={recipe.title}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h2 className={`text-xl font-semibold flex-1 ${
-                        darkMode ? 'text-white' : 'text-gray-800'
-                        }`}>{recipe.title}</h2>
-                        
-                        {/* Likes */}
-                        <div className="flex items-center ml-4">
-                        <button onClick={(e) => {
-                          e.stopPropagation();
-                          likeClick(e, recipe._id);
-                        }}>
-                          <Heart
-                          fill={
-                            Array.isArray(recipe.likes) &&
-                            recipe.likes.some((like) => like.userId === user?.email)
-                            ? "#ec4899"
-                            : "none"
-                          }
-                          stroke={
-                            Array.isArray(recipe.likes) &&
-                            recipe.likes.some((like) => like.userId === user?.email)
-                            ? "#ec4899"
-                            : "currentColor"
-                          }
-                          className={`w-6 h-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
-                          />
-                        </button>
-                        <span className={`text-lg ml-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          {Array.isArray(recipe.likes) ? recipe.likes.length : 0}
-                        </span>
-                        </div>
-                      </div>
-                      </div>
+              <div>
+                {/* Cover Image */}
+                <div className="relative w-full h-52 bg-black">
+                  <Image
+                    src={recipe.coverImage || "/placeholder-recipe.jpg"}
+                    alt={recipe.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="group-hover:opacity-90 transition"
+                  />
+                  <span className="absolute top-3 left-3 bg-yellow-500 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow">
+                    {recipe.category || "Recipe"}
+                  </span>
+                </div>
 
-                      {/* View Recipe Button */}
-              <div className="mb-4 flex justify-center items-center">
-                <button 
-                  onClick={() => handleRecipeClick(recipe)}
-                  className="w-32 h-10 bg-yellow-400 text-gray-600 rounded-full hover:bg-yellow-500 transition hover:font-semibold"
+                {/* Card Content */}
+                <div className="p-6 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <h2 className="text-xl font-bold line-clamp-1 group-hover:text-yellow-500 transition">{recipe.title}</h2>
+
+                    {/* Like Button */}
+                    <button
+                      onClick={(e) => likeClick(e, recipe._id)}
+                      className="flex items-center gap-1 text-sm font-semibold text-pink-500 hover:scale-110 transition"
+                    >
+                      <Heart
+                        className={`w-5 h-5 ${
+                          Array.isArray(recipe.likes) && recipe.likes.some((l) => l.userId === user?.email)
+                            ? "fill-current text-pink-500"
+                            : "text-gray-400"
+                        }`}
+                      />
+                      <span>{recipe.likes ? recipe.likes.length : 0}</span>
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+                    {recipe.username ? `By Chef ${recipe.username}` : "BiteBox Community Recipe"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons Footer */}
+              <div className="p-6 pt-0 flex gap-2">
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleRecipeClick(recipe); }}
+                  className="flex-1 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-xs rounded-xl transition shadow"
                 >
-                  Recipe
+                  View Recipe
+                </button>
+
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleRemixRecipe(recipe); }}
+                  className="px-3.5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-200 hover:text-yellow-600 font-bold text-xs rounded-xl transition flex items-center gap-1"
+                  title="Remix this recipe"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" /> Remix
                 </button>
               </div>
             </div>
           ))}
-          </>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -2,40 +2,38 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from "next/legacy/image";
+import { usePathname } from 'next/navigation';
 import { UserAuth } from "../app/context/AuthContext";
-import DarkModeToggle from './DarkModeToggle';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User as UserIcon } from 'lucide-react';
 import ModeToggle from './modeToggle';
 import logo from '../lib/logo.png'; 
 
 const Navbar = () => {
-    const { user, logOut, loading } = UserAuth();
+    const { user, loading } = UserAuth();
     const [isOpen, setIsOpen] = useState(false);
-    const [imgError, setImgError] = useState(false);
+    const pathname = usePathname();
 
-    const NavLink = ({ href, children }) => (
-        <Link
-            href={href}
-            onClick={() => setIsOpen(false)}
-            className="block px-4 py-2 text-sm hover:bg-yellow-600 rounded-lg transition-colors duration-200"
-        >
-            {children}
-        </Link>
-    );
+    const isActive = (path) => pathname === path;
 
-    const AuthButton = ({ onClick, children }) => (
-        <button
-            onClick={onClick}
-            className="w-full md:w-auto px-6 py-2 bg-white text-yellow-500 hover:bg-yellow-100 
-            rounded-full font-semibold shadow-md transition-all duration-200 
-            hover:shadow-lg text-sm"
-        >
-            {children}
-        </button>
-    );
+    const NavLink = ({ href, children }) => {
+        const active = isActive(href);
+        return (
+            <Link
+                href={href}
+                onClick={() => setIsOpen(false)}
+                className={`block px-4 py-2 text-sm rounded-xl transition-all duration-200 font-semibold ${
+                    active
+                        ? "bg-amber-600 text-white shadow-sm"
+                        : "text-gray-100 hover:bg-amber-600/80 hover:text-white"
+                }`}
+            >
+                {children}
+            </Link>
+        );
+    };
 
     return (
-        <nav className="bg-yellow-500 shadow-lg">
+        <nav className="bg-amber-500 dark:bg-gray-900 border-b border-amber-600 dark:border-gray-800 sticky top-0 z-50 transition-colors duration-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo and Brand */}
@@ -43,101 +41,86 @@ const Navbar = () => {
                         <div className="flex-shrink-0 w-10 h-10 relative">
                             <Image
                                 src={logo}
-                                alt="Logo"
+                                alt="BiteBox Logo"
                                 fill="true"
-                                className="rounded-full bg-white p-1 object-contain"
-                                onError={() => setImgError(true)}
-                                unoptimized // Add this if the external image source has issues with Next.js image optimization
+                                className="rounded-full bg-white p-1 object-contain shadow-sm"
+                                unoptimized
                             />
                         </div>
                         <Link 
                             href="/"
-                            className="text-white font-mono font-bold text-2xl hover:text-yellow-200 
-                            transition-colors duration-200"
+                            className="text-white font-extrabold text-2xl hover:text-amber-100 transition-colors duration-200 tracking-tight"
                         >
                             BiteBox
                         </Link>
                     </div>
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <div className="flex space-x-4 items-center text-white">
-                            <NavLink href="/">Home</NavLink>
-                            <NavLink href="/menu">Menu</NavLink>
-                            <NavLink href="/recipes">Recipes</NavLink>
-                            <NavLink href="/more">Community</NavLink>
+                    {/* Desktop Navigation - 4 Main Pages Only */}
+                    <div className="hidden md:flex items-center space-x-2">
+                        <NavLink href="/">Home</NavLink>
+                        <NavLink href="/recipes">Recipes</NavLink>
+                        <NavLink href="/menu">AI Diet & Menu</NavLink>
+                        <NavLink href="/streams">Live Streams</NavLink>
 
-                            <div className="px-2">
-                                {/* <DarkModeToggle /> */}
-                                {ModeToggle()}
-                            </div>
+                        <div className="pl-3 pr-1">
+                            <ModeToggle />
                         </div>
                         
                         {!loading && (
-                            <div className="flex space-x-3 items-center">
+                            <div className="flex items-center ml-2">
                                 {!user ? (
-                                    <Link href="/LoginPage">
-                                        <AuthButton>Login</AuthButton>
+                                    <Link href="/LoginPage" className="px-5 py-2 rounded-full font-bold bg-white text-amber-600 hover:bg-amber-50 shadow text-sm transition">
+                                        Login
                                     </Link>
                                 ) : (
-                                    <>
-                                        <Link href="/profile">
-                                            <AuthButton>Profile</AuthButton>
-                                        </Link>
-                                    </>
+                                    <Link href="/profile" className="px-4 py-2 rounded-full font-bold bg-white text-amber-600 hover:bg-amber-50 shadow text-sm transition flex items-center gap-1.5">
+                                        <UserIcon className="w-4 h-4" />
+                                        Profile
+                                    </Link>
                                 )}
                             </div>
                         )}
                     </div>
 
-                    {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center">
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden flex items-center space-x-2">
+                        <ModeToggle />
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-white hover:text-yellow-200 focus:outline-none"
+                            className="text-white hover:text-amber-200 focus:outline-none p-1 rounded-md"
+                            aria-label="Toggle Navigation"
                         >
-                            {isOpen ? (
-                                <X className="h-6 w-6" />
-                            ) : (
-                                <Menu className="h-6 w-6" />
-                            )}
+                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile menu */}
+            {/* Mobile Menu - 4 Main Pages Only */}
             {isOpen && (
-                <div className="md:hidden bg-yellow-500 shadow-inner h-full">
-                <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col items-center font-semibold">
-                    <NavLink href="/" className="text-center w-full">Home</NavLink>
-                    <NavLink href="/menu" className="text-center w-full">Menu</NavLink>
-                    <NavLink href="/recipes" className="text-center w-full">Recipes</NavLink>
-                    <NavLink href="/more" className="text-center w-full">Community</NavLink>
-                    <NavLink href="/contact" className="text-center w-full">Contact</NavLink>
-                    <div className="px-2">
-                                {/* <DarkModeToggle /> */}
-                                {ModeToggle()}
+                <div className="md:hidden bg-amber-500 dark:bg-gray-900 border-t border-amber-600 dark:border-gray-800">
+                    <div className="px-4 pt-2 pb-4 space-y-2 flex flex-col items-stretch font-semibold">
+                        <NavLink href="/">Home</NavLink>
+                        <NavLink href="/recipes">Recipes</NavLink>
+                        <NavLink href="/menu">AI Diet & Menu</NavLink>
+                        <NavLink href="/streams">Live Streams</NavLink>
+                                        
+                        {!loading && (
+                            <div className="pt-2 border-t border-amber-600 dark:border-gray-800">
+                                {!user ? (
+                                    <Link href="/LoginPage" className="block w-full text-center py-2 bg-white text-amber-600 font-bold rounded-xl" onClick={() => setIsOpen(false)}>
+                                        Login
+                                    </Link>
+                                ) : (
+                                    <Link href="/profile" className="block w-full text-center py-2 bg-white text-amber-600 font-bold rounded-xl" onClick={() => setIsOpen(false)}>
+                                        <UserIcon className="w-4 h-4 inline mr-1" />
+                                        Profile
+                                    </Link>
+                                )}
+                            </div>
+                        )}
                     </div>
-                    {/* <div className="">
-                        <DarkModeToggle />
-                    </div> */}
-                                    
-                    {!loading && (
-                        <div className="space-y-2 px-4 py-2 w-full flex flex-col items-center">
-                            {!user ? (
-                                <Link href="/LoginPage" className="block w-full max-w-xs">
-                                    <AuthButton>Login</AuthButton>
-                                </Link>
-                            ) : (
-                                <Link href="/profile" className="block w-full max-w-xs">
-                                    <AuthButton>Profile</AuthButton>
-                                </Link>
-                            )}
-                        </div>
-                    )}
                 </div>
-            </div>
             )}
         </nav>
     );
