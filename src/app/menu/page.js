@@ -522,7 +522,7 @@ Respond strictly in this exact JSON structure:
               darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}>
               <h2 className="text-2xl font-bold mb-2 flex items-center gap-2 text-yellow-500">
-                <Refrigerator className="w-6 h-6" /> What's in Your Fridge?
+                <Refrigerator className="w-6 h-6" /> What&apos;s in Your Fridge?
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                 Add available ingredients and let Gemini AI craft custom step-by-step recipes on the spot!
@@ -709,7 +709,7 @@ Respond strictly in this exact JSON structure:
                   onClick={clearDailyLog}
                   className="flex items-center gap-1.5 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-800 transition font-semibold"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" /> Reset Today's Log
+                  <RotateCcw className="w-3.5 h-3.5" /> Reset Today&apos;s Log
                 </button>
               </div>
 
@@ -805,11 +805,11 @@ Respond strictly in this exact JSON structure:
             <div className={`p-8 rounded-3xl border shadow-xl ${
               darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}>
-              <h3 className="text-xl font-bold mb-4 text-yellow-500">Today's Logged Meals ({dailyLog.length})</h3>
+              <h3 className="text-xl font-bold mb-4 text-yellow-500">Today&apos;s Logged Meals ({dailyLog.length})</h3>
 
               {dailyLog.length === 0 ? (
                 <div className="text-center py-10 text-gray-400 text-sm">
-                  No meals logged today yet. Log custom meals or click "Add to Daily Macro Log" from AI generated meal plans!
+                  No meals logged today yet. Log custom meals or click &quot;Add to Daily Macro Log&quot; from AI generated meal plans!
                 </div>
               ) : (
                 <div className="space-y-3">

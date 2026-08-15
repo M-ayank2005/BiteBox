@@ -279,7 +279,7 @@ function ProfilePage() {
                 <div className="text-center py-12 text-gray-400 space-y-2">
                   <ShoppingCart className="w-12 h-12 mx-auto text-gray-500 mb-2" />
                   <p className="font-bold">Your shopping list is empty!</p>
-                  <p className="text-xs">Click "Save to Shopping List" on any recipe page to export ingredients here.</p>
+                  <p className="text-xs">Click &quot;Save to Shopping List&quot; on any recipe page to export ingredients here.</p>
                 </div>
               ) : (
                 <div className="space-y-6">
