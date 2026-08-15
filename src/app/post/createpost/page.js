@@ -56,10 +56,9 @@ function CreatePost() {
     };
 
     return (
-      <div
-        className={`container mt-10 mx-auto max-w-5xl p-8 shadow-lg rounded-lg ${darkMode ? 'dark bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-800'
-          }`}
-      >
+      <div className={`min-h-screen pb-12 transition-colors duration-300 ${darkMode ? 'bg-zinc-950 text-zinc-100' : 'bg-slate-50 text-slate-900'}`}>
+        <div className="container pt-24 mx-auto max-w-4xl px-4">
+          <div className="glass-panel p-8 rounded-3xl shadow-sm">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-extrabold">Create Your Post</h1>
@@ -71,7 +70,7 @@ function CreatePost() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full text-2xl font-semibold border-b-2 border-gray-300 dark:border-gray-600 px-4 py-2 focus:border-blue-500 transition placeholder-gray-400 bg-transparent"
+            className="w-full text-2xl font-semibold glass-input px-4 py-3 focus:ring-2 focus:ring-amber-500 transition placeholder-slate-400"
             placeholder="Post Title"
             required
           />
@@ -83,7 +82,7 @@ function CreatePost() {
             type="url"
             value={thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
-            className="w-full text-lg border-b-2 border-gray-300 dark:border-gray-600 px-4 py-2 focus:border-blue-500 transition placeholder-gray-400 bg-transparent"
+            className="w-full text-lg glass-input px-4 py-3 focus:ring-2 focus:ring-amber-500 transition placeholder-slate-400"
             placeholder="Image URL (Optional)"
             required
           />
@@ -126,7 +125,7 @@ function CreatePost() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Enter Your Thoughts Here..."
-            className="min-h-[300px] w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-inner p-4 text-gray-700 dark:text-gray-200"
+            className="min-h-[300px] w-full glass-input p-4 resize-none focus:ring-2 focus:ring-amber-500 transition"
           />
 
         </div>
@@ -136,12 +135,13 @@ function CreatePost() {
           <button
             onClick={handlePost}
             disabled={loading}
-            className={`px-8 py-3 font-semibold rounded-lg shadow-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-600 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''
+            className={`px-8 py-3 font-bold rounded-full shadow-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-4 focus:ring-amber-300 dark:focus:ring-amber-600 transition transform hover:scale-105 active:scale-95 ${loading ? 'opacity-50 cursor-not-allowed hover:scale-100' : ''
               }`}
           >
-            {loading ? 'Posting...' : 'Post Recipe'}
+            {loading ? 'Posting...' : 'Create Post'}
           </button>
         </div>
+      </div>
       </div>
     )
   }

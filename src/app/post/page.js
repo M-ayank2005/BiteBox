@@ -75,34 +75,35 @@ const PostsPage = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-300"}`}>
+    <div className={`min-h-screen pb-12 transition-colors duration-300 ${darkMode ? "bg-zinc-950 text-zinc-100" : "bg-slate-50 text-slate-900"}`}>
       {/* Header Section */}
-      <div className="bg-gradient-to-r py-8 mb-3 ">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
+      <div className="pt-24 pb-8 mb-6">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="flex justify-between items-center bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl p-8 rounded-3xl border border-slate-200/50 dark:border-zinc-800/50 shadow-sm">
             <div>
-              <h1 className={`text-4xl font-bold ${darkMode ? "text-white" : "text-gray-700"} mb-2`}>Community Discussions</h1>
-              <p className={`${darkMode ? "text-white" : "text-gray-600"} text-lg`}>Share your thoughts with the community</p>
+              <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight">Community Discussions</h1>
+              <p className="text-lg opacity-80 font-medium">Share your culinary thoughts with the community</p>
             </div>
               <button
                 onClick={handleCreatePost}
-                className="flex items-center md:gap-2 bg-white text-yellow-600 px-2 py-1 text-[10px] md:px-6 md:py-3 rounded-full hover:bg-gray-300 transition-all duration-100 shadow-lg font-medium"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-md hover:shadow-lg transition-all transform active:scale-95"
               >
-                <Plus size={20} />
-                <span>Start Discussion</span>
+                <Plus className="w-5 h-5" />
+                <span className="hidden sm:inline">Start Discussion</span>
+                <span className="sm:hidden">Post</span>
               </button>
           </div>
         </div>
       </div>
 
       {/* Posts Container */}
-      <div className="container mx-auto px-4 -mt-6 mb-6">
+      <div className="container mx-auto px-4 mb-6 max-w-5xl">
         <div className="space-y-4">
           {posts.map((post) => (
             <div
               key={post._id}
               onClick={() => handleViewPost(post._id)}
-              className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-white text-gray-900"} rounded-xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-gray-100 group overflow-hidden`}
+              className="glass-card p-0 transition-all duration-300 cursor-pointer group overflow-hidden hover:scale-[1.01]"
             >
               <div className="p-6">
                 <div className="flex gap-6">
@@ -113,7 +114,7 @@ const PostsPage = () => {
                       alt={post.title || "Default"}
                       width={64}
                       height={64}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-yellow-100"
+                      className="w-16 h-16 rounded-full object-cover border-[3px] border-amber-200 dark:border-amber-900/50"
                     />
                     <span className="text-sm font-medium text-center line-clamp-1">
                       {post.author || "Anonymous"}
@@ -127,7 +128,7 @@ const PostsPage = () => {
                         {post.title}
                       </h2>
                       <ChevronRight
-                        className="group-hover:text-yellow-500 group-hover:translate-x-1 transition-all"
+                        className="opacity-40 group-hover:opacity-100 group-hover:text-amber-500 group-hover:translate-x-1 transition-all"
                         size={24}
                       />
                     </div>
@@ -145,7 +146,7 @@ const PostsPage = () => {
                           <span>Posted {new Date(post.createdAt || Date.now()).toLocaleDateString()}</span>
                         </div>
                         {post.category && (
-                          <span className="bg-yellow-50 text-yellow-600 px-3 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                             {post.category}
                           </span>
                         )}
@@ -174,15 +175,15 @@ const PostsPage = () => {
 
         {/* Empty State */}
         {posts.length === 0 && (
-          <div className="text-center py-16 bg-white rounded-xl shadow-sm mt-6">
-            <div className="w-20 h-20 rounded-full bg-yellow-50 flex items-center justify-center mx-auto mb-4">
-              <User size={32} className="text-yellow-500" />
+          <div className="text-center py-16 glass-card mt-6">
+            <div className="w-20 h-20 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mx-auto mb-4">
+              <User size={32} className="text-amber-500" />
             </div>
-            <h3 className="text-xl font-medium text-gray-800">No discussions yet</h3>
-            <p className="text-gray-500 mt-2 mb-6">Be the first to start a conversation!</p>
+            <h3 className="text-xl font-bold">No discussions yet</h3>
+            <p className="opacity-60 mt-2 mb-6 font-medium">Be the first to start a conversation!</p>
             <button
               onClick={handleCreatePost}
-              className="inline-flex items-center gap-2 bg-yellow-500 text-white px-8 py-3 rounded-full hover:bg-yellow-600 transition-colors"
+              className="inline-flex items-center gap-2 bg-amber-500 text-white px-8 py-3 rounded-full hover:bg-amber-600 font-bold shadow-md transition-colors transform active:scale-95"
             >
               <Plus size={20} />
               <span>Create First Post</span>

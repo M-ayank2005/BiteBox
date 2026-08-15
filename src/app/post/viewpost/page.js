@@ -174,8 +174,7 @@ const PostDetailsPage = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900 text-white" : "bg-slate-50 text-black"
-        }`}>
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${darkMode ? "bg-zinc-950 text-white" : "bg-slate-50 text-black"}`}>
         <div className="p-6 rounded-lg bg-red-50 border border-red-200 flex items-center gap-3">
           <AlertCircle className="text-red-500 w-6 h-6" />
           <p className="text-red-500 text-xl font-medium">{error}</p>
@@ -193,17 +192,15 @@ const PostDetailsPage = () => {
     : "Unknown";
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-300 text-gray-900"
-      }`}>
-      <div className="max-w-5xl mx-auto px-4 py-6">
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "bg-zinc-950 text-zinc-100" : "bg-slate-50 text-slate-900"}`}>
+      <div className="max-w-5xl mx-auto px-4 pt-24 pb-12">
         {/* Header Section */}
-        <header className={`mb-6 rounded-xl p-6 ${darkMode ? "bg-gray-800" : "bg-white"
-          } shadow-sm`}>
+        <header className="mb-6 rounded-3xl p-6 glass-panel shadow-sm">
           <div className="flex items-center justify-between mb-4 overflow-hidden">
             <div className="flex items-center gap-4">
               <div className="relative h-12 w-12">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse" />
-                <div className="absolute inset-0.5 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-amber-500 animate-pulse opacity-50" />
+                <div className="absolute inset-0.5 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center">
                   <span className="text-lg font-semibold">{post.user[0]}</span>
                 </div>
               </div>
@@ -246,12 +243,12 @@ const PostDetailsPage = () => {
                 onClick={handleLike}
                 disabled={isLiked}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${isLiked
-                  ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
-                  : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                  ? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
+                  : "hover:bg-gray-100 dark:hover:bg-zinc-700"
                   }`}
               >
                 <Heart
-                  className={`w-6 h-6 transform transition-transform group-hover:scale-110 ${isLiked ? "fill-current text-pink-500 dark:text-pink-400" : ""
+                  className={`w-6 h-6 transform transition-transform group-hover:scale-110 ${isLiked ? "fill-current text-red-500" : ""
                     }`}
                 />
                 <span className="font-medium">{post.likes.length}</span>
@@ -272,23 +269,19 @@ const PostDetailsPage = () => {
         </header>
 
         {/* Comments Section */}
-        <section className={`rounded-xl ${darkMode ? "bg-gray-800" : "bg-white"
-          } shadow-sm p-6`}>
+        <section className="rounded-3xl glass-panel p-6 shadow-sm">
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-4">Add to the discussion</h3>
             <div className="flex flex-col gap-3">
               <textarea
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                className={`w-full p-4 rounded-xl resize-none h-24 transition-all ${darkMode
-                  ? "bg-gray-700 text-white border-gray-600 focus:bg-gray-600"
-                  : "bg-gray-100 text-gray-900 border-gray-100 focus:bg-white"
-                  } border focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                className="w-full p-4 rounded-xl resize-none h-24 glass-input focus:ring-2 focus:ring-amber-500"
                 placeholder="What are your thoughts?"
               />
               <button
                 onClick={handleAddComment}
-                className="self-end px-6 py-2.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all transform hover:scale-105 flex items-center gap-2"
+                className="self-end px-6 py-2.5 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-bold transition-all transform hover:scale-105 flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 Comment
@@ -314,12 +307,11 @@ const PostDetailsPage = () => {
             {sortComments(post.comments).map((comment) => (
               <div
                 key={comment._id}
-                className={`rounded-xl ${darkMode ? "bg-gray-700/50" : "bg-gray-100"
-                  } p-5 space-y-4`}
+                className="rounded-2xl glass-card p-5 space-y-4 hover:translate-y-0"
               >
                 <div className="flex justify-between items-start gap-4 max-w-full overflow-hidden">
                   <div className="flex gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                    <div className="h-10 w-10 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-medium">{comment.user[0]}</span>
                     </div>
                     <div className="flex-1 overflow-hidden">
@@ -351,15 +343,12 @@ const PostDetailsPage = () => {
                       type="text"
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
-                      className={`flex-grow p-3 rounded-xl ${darkMode
-                        ? "bg-gray-600 text-white border-gray-500"
-                        : "bg-white text-gray-900 border-gray-200"
-                        } border focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                      className="flex-grow p-3 rounded-xl glass-input focus:ring-2 focus:ring-amber-500"
                       placeholder="Write a reply..."
                     />
                     <button
                       onClick={() => handleAddReply(comment._id)}
-                      className="px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all"
+                      className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold transition-all"
                     >
                       Reply
                     </button>
@@ -370,8 +359,7 @@ const PostDetailsPage = () => {
                   <div className="ml-12">
                     <button
                       onClick={() => toggleReplies(comment._id)}
-                      className={`flex items-center gap-2 text-sm font-medium ${darkMode ? "text-blue-400" : "text-blue-600"
-                        } hover:underline`}
+                      className="flex items-center gap-2 text-sm font-bold text-amber-500 hover:underline"
                     >
                       {expandedComments.has(comment._id) ? (
                         <>
@@ -391,22 +379,20 @@ const PostDetailsPage = () => {
                         {comment.replies.map((reply) => (
                           <div
                             key={reply._id}
-                            className={`p-4 rounded-xl ${darkMode ? "bg-gray-600/50" : "bg-white"
-                              }`}
+                            className="p-4 rounded-xl glass-card hover:translate-y-0"
                           >
                             <div className="flex items-start gap-3">
-                              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
-                                <span className="text-white text-sm font-medium">
+                              <div className="h-8 w-8 rounded-full bg-amber-400 flex items-center justify-center flex-shrink-0">
+                                <span className="text-white text-sm font-bold">
                                   {reply.user[0]}
                                 </span>
                               </div>
                               <div>
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <span className="font-medium text-sm">{reply.user}</span>
-                                  <span className="text-xs text-gray-500">• 1h ago</span>
+                                  <span className="font-bold text-sm">{reply.user}</span>
+                                  <span className="text-xs text-slate-500">• 1h ago</span>
                                 </div>
-                                <p className={`text-sm mt-1 ${darkMode ? "text-gray-300" : "text-gray-700"
-                                  }`}>
+                                <p className={`text-sm mt-1 ${darkMode ? "text-zinc-300" : "text-slate-700"}`}>
                                   {reply.text}
                                 </p>
                               </div>
