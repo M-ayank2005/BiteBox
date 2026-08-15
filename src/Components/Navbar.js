@@ -22,7 +22,7 @@ const Navbar = () => {
             <Link
                 href={href}
                 onClick={() => setIsOpen(false)}
-                className={`block px-4 py-1.5 text-sm rounded-full transition-all duration-200 font-semibold ${
+                className={`block px-4 py-2 sm:py-1.5 text-base md:text-sm rounded-full transition-all duration-300 ease-out font-semibold ${
                     active
                         ? "bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-sm"
                         : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-100 dark:hover:bg-zinc-800/50"

@@ -148,16 +148,12 @@ function ProfilePage() {
   ];
 
   return (
-    <div className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
-    }`}>
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+      <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
         {/* Profile Header Card */}
-        <div className={`p-8 rounded-3xl border shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 ${
-          darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-        }`}>
+        <div className="glass-panel p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-yellow-500 overflow-hidden shadow-lg flex-shrink-0">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-amber-500 overflow-hidden shadow-lg flex-shrink-0">
               <Image
                 src={user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"}
                 alt="Profile Avatar"
@@ -170,7 +166,7 @@ function ProfilePage() {
             <div className="space-y-1">
               <div className="flex items-center justify-center sm:justify-start gap-2">
                 <h1 className="text-2xl sm:text-3xl font-extrabold">{user.displayName || "BiteBox Chef"}</h1>
-                <span className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 text-xs font-bold px-3 py-1 rounded-full border border-yellow-500/30">
+                <span className="bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/30">
                   Pro Chef
                 </span>
               </div>
@@ -179,7 +175,7 @@ function ProfilePage() {
 
               <div className="flex items-center justify-center sm:justify-start gap-4 text-xs text-gray-400 pt-1">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-yellow-500" /> Joined {user.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : "Recently"}
+                  <Calendar className="w-3.5 h-3.5 text-amber-500" /> Joined {user.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : "Recently"}
                 </span>
               </div>
             </div>
@@ -199,7 +195,7 @@ function ProfilePage() {
             onClick={() => setActiveTab("shopping")}
             className={`pb-4 px-6 font-bold text-sm flex items-center gap-2 border-b-2 transition ${
               activeTab === "shopping"
-                ? "border-yellow-500 text-yellow-500"
+                ? "border-amber-500 text-amber-500"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
@@ -210,7 +206,7 @@ function ProfilePage() {
             onClick={() => setActiveTab("badges")}
             className={`pb-4 px-6 font-bold text-sm flex items-center gap-2 border-b-2 transition ${
               activeTab === "badges"
-                ? "border-yellow-500 text-yellow-500"
+                ? "border-amber-500 text-amber-500"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
@@ -221,7 +217,7 @@ function ProfilePage() {
             onClick={() => setActiveTab("macros")}
             className={`pb-4 px-6 font-bold text-sm flex items-center gap-2 border-b-2 transition ${
               activeTab === "macros"
-                ? "border-yellow-500 text-yellow-500"
+                ? "border-amber-500 text-amber-500"
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
@@ -233,13 +229,11 @@ function ProfilePage() {
             TAB 1: SMART GROCERY SHOPPING LIST
            ======================================================== */}
         {activeTab === "shopping" && (
-          <div className="space-y-6">
-            <div className={`p-8 rounded-3xl border shadow-xl ${
-              darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-            }`}>
+          <div className="space-y-6 sm:space-y-8">
+            <div className="glass-panel p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold flex items-center gap-2 text-yellow-500">
+                  <h2 className="text-2xl font-bold flex items-center gap-2 text-amber-500">
                     <ShoppingCart className="w-6 h-6" /> Your Smart Grocery List
                   </h2>
                   <p className="text-xs text-gray-400">Exported ingredients from saved recipes & AI meal plans</p>
@@ -257,18 +251,16 @@ function ProfilePage() {
 
               {/* Add Custom Grocery Item Form */}
               <form onSubmit={handleAddCustomGrocery} className="flex gap-2 mb-6">
-                <input
-                  type="text"
-                  value={customItem}
-                  onChange={(e) => setCustomItem(e.target.value)}
-                  placeholder="Add custom item (e.g. 1 Gallon Whole Milk, Olive Oil)..."
-                  className={`flex-1 p-3 rounded-xl border text-sm ${
-                    darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"
-                  }`}
-                />
+                  <input
+                    type="text"
+                    value={customItem}
+                    onChange={(e) => setCustomItem(e.target.value)}
+                    placeholder="Add custom item (e.g. 1 Gallon Whole Milk, Olive Oil)..."
+                    className="flex-1 p-3 rounded-xl glass-input text-sm"
+                  />
                 <button
                   type="submit"
-                  className="px-5 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl transition shadow text-sm flex items-center gap-1"
+                  className="px-5 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition shadow text-sm flex items-center gap-1"
                 >
                   <Plus className="w-4 h-4" /> Add Item
                 </button>
@@ -291,7 +283,7 @@ function ProfilePage() {
                       }`}
                     >
                       <div className="flex justify-between items-center mb-3 pb-2 border-b dark:border-gray-600">
-                        <span className="font-bold text-sm text-yellow-500">{group.recipeTitle}</span>
+                        <span className="font-bold text-sm text-amber-500">{group.recipeTitle}</span>
                         <button
                           onClick={() => handleRemoveRecipeFromList(group.id)}
                           className="text-xs text-red-400 hover:text-red-600 font-semibold"
@@ -322,9 +314,7 @@ function ProfilePage() {
               return (
                 <div
                   key={badge.id}
-                  className={`p-6 rounded-3xl border shadow-xl flex items-start gap-5 ${
-                    darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-                  }`}
+                  className="glass-card p-6 flex items-start gap-4 sm:gap-5"
                 >
                   <div className={`w-14 h-14 rounded-2xl ${badge.color} text-white flex items-center justify-center shadow-md flex-shrink-0`}>
                     <Icon className="w-7 h-7" />
@@ -349,10 +339,8 @@ function ProfilePage() {
             TAB 3: DAILY NUTRITION HISTORY
            ======================================================== */}
         {activeTab === "macros" && (
-          <div className={`p-8 rounded-3xl border shadow-xl ${
-            darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-          }`}>
-            <h2 className="text-2xl font-bold mb-4 text-yellow-500 flex items-center gap-2">
+          <div className="glass-panel p-6 sm:p-8">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 text-amber-500 flex items-center gap-2">
               <Flame className="w-6 h-6" /> Daily Macro Log History
             </h2>
 

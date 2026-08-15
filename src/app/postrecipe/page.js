@@ -1,17 +1,26 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { UserAuth } from "../context/AuthContext";
-import { useRouter } from 'next/navigation'; 
+import { useRouter, useSearchParams } from 'next/navigation'; 
 import { useDarkMode } from '../DarkModeContext';
-import 'react-quill/dist/quill.snow.css';
+import loader from '@/Components/loader';
 
-// Dynamically import ReactQuill to prevent SSR window issues
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+// Dynamically import ReactQuill to prevent SSR window/document issues
+const ReactQuill = dynamic(
+  async () => {
+    await import('react-quill/dist/quill.snow.css');
+    return import('react-quill');
+  },
+  { 
+    ssr: false,
+    loading: () => <div className="p-6 text-center text-sm text-gray-400">Loading Rich Text Editor...</div>
+  }
+);
 
-const PostRecipePage = () => {
+function PostRecipeContent() {
   const [mounted, setMounted] = useState(false);
   const [title, setTitle] = useState('');
   const [coverImage, setImageUrl] = useState('');
@@ -22,11 +31,18 @@ const PostRecipePage = () => {
 
   const { user } = UserAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { darkMode } = useDarkMode();
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    
+    // Check if user is remixing an existing recipe
+    const remixTitle = searchParams.get('title');
+    if (remixTitle) {
+      setTitle(remixTitle);
+    }
+  }, [searchParams]);
 
   // Rich Text Editor Modules & Toolbar Configuration
   const modules = {
@@ -71,9 +87,11 @@ const PostRecipePage = () => {
         email: user.email || 'Not Available',
       };
 
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API}/api/recipes`, {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:5000';
+
+      await axios.post(`${backendUrl}/api/recipes`, {
         title,
-        content, // Clean HTML content string
+        content,
         coverImage,
         youtube,
         category,
@@ -90,16 +108,18 @@ const PostRecipePage = () => {
     }
   };
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        {loader()}
+      </div>
+    );
+  }
 
   return (
-    <div className={`min-h-screen py-10 px-4 transition-colors duration-300 ${
-      darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-800'
-    }`}>
-      <div className={`max-w-4xl mx-auto p-8 rounded-2xl shadow-xl border ${
-        darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-      }`}>
-        <h1 className="text-3xl font-extrabold mb-8 text-center text-yellow-500 tracking-tight">
+    <div className="min-h-screen py-10 px-4">
+      <div className="max-w-4xl mx-auto glass-panel p-8 space-y-8">
+        <h1 className="text-3xl font-extrabold text-center text-amber-500 tracking-tight">
           Create & Share Your Recipe
         </h1>
 
@@ -112,9 +132,7 @@ const PostRecipePage = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Creamy Tuscan Garlic Chicken"
-              className={`w-full text-lg px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
-                darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full text-lg px-4 py-3 rounded-xl glass-input"
               required
             />
           </div>
@@ -127,9 +145,7 @@ const PostRecipePage = () => {
               value={coverImage}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://images.unsplash.com/..."
-              className={`w-full text-base px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
-                darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900'
-              }`}
+              className="w-full text-base px-4 py-3 rounded-xl glass-input"
               required
             />
           </div>
@@ -143,9 +159,7 @@ const PostRecipePage = () => {
                 value={youtube}
                 onChange={(e) => setYoutube(e.target.value)}
                 placeholder="https://www.youtube.com/watch?v=..."
-                className={`w-full text-base px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
-                  darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900'
-                }`}
+                className="w-full text-base px-4 py-3 rounded-xl glass-input"
               />
             </div>
 
@@ -154,9 +168,7 @@ const PostRecipePage = () => {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className={`w-full text-base px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
-                  darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'
-                }`}
+                className="w-full text-base px-4 py-3 rounded-xl glass-input"
                 required
               >
                 <option value="" disabled>Select a Category</option>
@@ -177,9 +189,7 @@ const PostRecipePage = () => {
           {/* Rich Text Editor */}
           <div>
             <label className="block text-sm font-semibold mb-2">Recipe Instructions & Ingredients *</label>
-            <div className={`rounded-xl overflow-hidden border ${
-              darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'
-            }`}>
+            <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
               <ReactQuill
                 theme="snow"
                 value={content}
@@ -197,7 +207,7 @@ const PostRecipePage = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full sm:w-auto px-10 py-3 rounded-full font-bold text-white bg-yellow-500 hover:bg-yellow-600 shadow-lg hover:shadow-xl transition transform active:scale-95 ${
+              className={`w-full sm:w-auto px-10 py-3.5 rounded-full font-bold text-white bg-amber-500 hover:bg-amber-600 shadow-lg transition active:scale-95 ${
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
@@ -208,6 +218,12 @@ const PostRecipePage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default PostRecipePage;
+export default function PostRecipePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">{loader()}</div>}>
+      <PostRecipeContent />
+    </Suspense>
+  );
+}

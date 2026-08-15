@@ -279,8 +279,8 @@ Respond strictly in this exact JSON structure:
   };
 
   return (
-    <main className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <main className="min-h-screen py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         {/* Apple Water Glass Hero Banner */}
         <div className="glass-panel text-center p-8 sm:p-10 space-y-4">
           <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase px-4 py-1.5 rounded-full border border-amber-500/20">
@@ -332,11 +332,9 @@ Respond strictly in this exact JSON structure:
             TAB 1: AI MEAL PLANNER
            ======================================================== */}
         {activeTab === "planner" && (
-          <div className="space-y-8">
-            <div className={`p-8 rounded-3xl border shadow-xl ${
-              darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-            }`}>
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-yellow-500">
+          <div className="space-y-6 sm:space-y-8">
+            <div className="glass-panel p-6 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-amber-500">
                 <Sparkles className="w-6 h-6" /> Configure Your Health & Fitness Profile
               </h2>
 
@@ -344,14 +342,12 @@ Respond strictly in this exact JSON structure:
                 {/* Fitness Goal */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
-                    <Scale className="w-4 h-4 text-yellow-500" /> Fitness Goal
+                    <Scale className="w-4 h-4 text-amber-500" /> Fitness Goal
                   </label>
                   <select
                     value={goal}
                     onChange={(e) => setGoal(e.target.value)}
-                    className={`w-full p-3 rounded-xl border font-medium ${
-                      darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"
-                    }`}
+                    className="w-full p-3 rounded-xl glass-input font-medium"
                   >
                     <option value="Weight Loss">Weight Loss & Lean Body</option>
                     <option value="Muscle Gain">Muscle Gain & Hypertrophy</option>
@@ -363,14 +359,12 @@ Respond strictly in this exact JSON structure:
                 {/* Dietary Style */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
-                    <Utensils className="w-4 h-4 text-yellow-500" /> Dietary Style
+                    <Utensils className="w-4 h-4 text-amber-500" /> Dietary Style
                   </label>
                   <select
                     value={dietStyle}
                     onChange={(e) => setDietStyle(e.target.value)}
-                    className={`w-full p-3 rounded-xl border font-medium ${
-                      darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"
-                    }`}
+                    className="w-full p-3 rounded-xl glass-input font-medium"
                   >
                     <option value="Balanced">Standard Balanced</option>
                     <option value="Keto">Keto (High Fat, Ultra Low Carb)</option>
@@ -387,7 +381,7 @@ Respond strictly in this exact JSON structure:
                     <span className="flex items-center gap-2">
                       <Flame className="w-4 h-4 text-orange-500" /> Daily Target Calories
                     </span>
-                    <span className="font-bold text-yellow-500">{calorieTarget} kcal</span>
+                    <span className="font-bold text-amber-500">{calorieTarget} kcal</span>
                   </label>
                   <input
                     type="range"
@@ -396,7 +390,7 @@ Respond strictly in this exact JSON structure:
                     step="50"
                     value={calorieTarget}
                     onChange={(e) => setCalorieTarget(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-yellow-500"
+                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-amber-500"
                   />
                   <div className="flex justify-between text-xs text-gray-400 mt-1">
                     <span>1,200 kcal</span>
@@ -421,8 +415,8 @@ Respond strictly in this exact JSON structure:
                         onClick={() => toggleCondition(cond.id)}
                         className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border ${
                           isSelected
-                            ? "bg-yellow-500 text-white border-yellow-500 shadow-md"
-                            : `${darkMode ? "bg-gray-700 border-gray-600 text-gray-300" : "bg-gray-100 border-gray-300 text-gray-700"} hover:border-yellow-500`
+                            ? "bg-amber-500 text-white border-amber-500 shadow-md"
+                            : `${darkMode ? "bg-gray-700 border-gray-600 text-gray-300" : "bg-gray-100 border-gray-300 text-gray-700"} hover:border-amber-500`
                         }`}
                       >
                         {isSelected && <Check className="w-3.5 h-3.5" />}
@@ -437,7 +431,7 @@ Respond strictly in this exact JSON structure:
               <button
                 onClick={handleGenerateMealPlan}
                 disabled={isGeneratingPlan}
-                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
+                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
                   isGeneratingPlan ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -457,24 +451,20 @@ Respond strictly in this exact JSON structure:
             {/* Generated AI Plan Display */}
             {generatedPlan && (
               <div className="space-y-6 animate-fadeIn">
-                <div className={`p-6 rounded-2xl border ${
-                  darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-                }`}>
-                  <h3 className="text-xl font-bold text-yellow-500 mb-1">AI Nutrition Plan Overview</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{generatedPlan.summary}</p>
+                <div className="glass-card p-6">
+                  <h3 className="text-xl font-bold text-amber-500 mb-1">AI Nutrition Plan Overview</h3>
+                  <p className="text-sm text-slate-600 dark:text-zinc-300">{generatedPlan.summary}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {generatedPlan.meals.map((meal, index) => (
                     <div
                       key={index}
-                      className={`p-6 rounded-2xl border flex flex-col justify-between space-y-4 shadow-lg ${
-                        darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-                      }`}
+                      className="glass-card p-6 flex flex-col justify-between space-y-4"
                     >
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs font-bold uppercase px-3 py-1 bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 rounded-full">
+                          <span className="text-xs font-bold uppercase px-3 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full">
                             {meal.type}
                           </span>
                           <span className="text-xs text-gray-400 flex items-center gap-1">
@@ -486,7 +476,7 @@ Respond strictly in this exact JSON structure:
                         <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">{meal.description}</p>
 
                         <div className="bg-gray-100 dark:bg-gray-700/50 p-3 rounded-xl space-y-1 text-xs">
-                          <div className="flex justify-between font-bold text-yellow-500">
+                          <div className="flex justify-between font-bold text-amber-500">
                             <span>Calories</span>
                             <span>{meal.calories} kcal</span>
                           </div>
@@ -499,7 +489,7 @@ Respond strictly in this exact JSON structure:
 
                       <button
                         onClick={() => logMealItem(meal.name, meal.calories, meal.protein, meal.carbs, meal.fat)}
-                        className="w-full py-2.5 rounded-xl font-bold text-xs bg-yellow-500 hover:bg-yellow-600 text-white transition flex items-center justify-center gap-1.5 shadow"
+                        className="w-full py-2.5 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-600 text-white transition flex items-center justify-center gap-1.5 shadow"
                       >
                         <Plus className="w-4 h-4" /> Add to Daily Macro Log
                       </button>
@@ -515,11 +505,9 @@ Respond strictly in this exact JSON structure:
             TAB 2: AI FRIDGE CHEF ("Cook with what you have")
            ======================================================== */}
         {activeTab === "fridge" && (
-          <div className="space-y-8">
-            <div className={`p-8 rounded-3xl border shadow-xl ${
-              darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-            }`}>
-              <h2 className="text-2xl font-bold mb-2 flex items-center gap-2 text-yellow-500">
+          <div className="space-y-6 sm:space-y-8">
+            <div className="glass-panel p-6 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-2 flex items-center gap-2 text-amber-500">
                 <Refrigerator className="w-6 h-6" /> What&apos;s in Your Fridge?
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
@@ -534,13 +522,11 @@ Respond strictly in this exact JSON structure:
                   onChange={(e) => setIngredientInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addIngredient(ingredientInput))}
                   placeholder="Type an ingredient (e.g. Chicken, Spinach, Cheese)..."
-                  className={`flex-1 p-3.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
-                    darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"
-                  }`}
+                  className="flex-1 p-3.5 rounded-xl glass-input text-sm"
                 />
                 <button
                   onClick={() => addIngredient(ingredientInput)}
-                  className="px-6 py-3.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl transition shadow"
+                  className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition shadow"
                 >
                   Add
                 </button>
@@ -554,7 +540,7 @@ Respond strictly in this exact JSON structure:
                     {ingredients.map((item, idx) => (
                       <span
                         key={idx}
-                        className="px-3.5 py-1.5 rounded-full bg-yellow-500 text-white text-xs font-bold flex items-center gap-2 shadow"
+                        className="px-3.5 py-1.5 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center gap-2 shadow"
                       >
                         {item}
                         <button onClick={() => removeIngredient(item)} className="hover:text-red-200 font-extrabold text-sm">×</button>
@@ -575,7 +561,7 @@ Respond strictly in this exact JSON structure:
                       className={`px-3 py-1 rounded-full text-xs font-semibold transition border ${
                         ingredients.includes(item)
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : `${darkMode ? "bg-gray-700 border-gray-600 text-gray-300" : "bg-gray-100 border-gray-200 text-gray-700"} hover:border-yellow-500`
+                          : `${darkMode ? "bg-gray-700 border-gray-600 text-gray-300" : "bg-gray-100 border-gray-200 text-gray-700"} hover:border-amber-500`
                       }`}
                       disabled={ingredients.includes(item)}
                     >
@@ -588,7 +574,7 @@ Respond strictly in this exact JSON structure:
               {/* Max Prep Time Selector */}
               <div className="mb-8">
                 <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-yellow-500" /> Max Cooking Prep Time
+                  <Clock className="w-4 h-4 text-amber-500" /> Max Cooking Prep Time
                 </label>
                 <select
                   value={maxPrepTime}
@@ -607,7 +593,7 @@ Respond strictly in this exact JSON structure:
               <button
                 onClick={handleGenerateFridgeRecipes}
                 disabled={isGeneratingRecipes || ingredients.length === 0}
-                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
+                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
                   isGeneratingRecipes || ingredients.length === 0 ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -626,18 +612,16 @@ Respond strictly in this exact JSON structure:
 
             {/* Generated Recipes */}
             {fridgeRecipes && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fadeIn">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 animate-fadeIn">
                 {fridgeRecipes.map((recipe, index) => (
                   <div
                     key={index}
-                    className={`p-6 sm:p-8 rounded-3xl border shadow-xl flex flex-col justify-between space-y-6 ${
-                      darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-                    }`}
+                    className="glass-card p-6 sm:p-8 flex flex-col justify-between space-y-6"
                   >
                     <div className="space-y-4">
                       <div className="flex justify-between items-start">
-                        <h3 className="text-2xl font-extrabold text-yellow-500">{recipe.title}</h3>
-                        <span className="text-xs font-bold bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-3 py-1 rounded-full flex items-center gap-1">
+                        <h3 className="text-2xl font-extrabold text-amber-500">{recipe.title}</h3>
+                        <span className="text-xs font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full flex items-center gap-1">
                           <Clock className="w-3 h-3" /> {recipe.prepTime}
                         </span>
                       </div>
@@ -654,7 +638,7 @@ Respond strictly in this exact JSON structure:
 
                       {/* Ingredients list */}
                       <div>
-                        <h4 className="font-bold text-sm mb-2 text-yellow-500">Needed Ingredients:</h4>
+                        <h4 className="font-bold text-sm mb-2 text-amber-500">Needed Ingredients:</h4>
                         <ul className="list-disc list-inside text-xs space-y-1 text-gray-600 dark:text-gray-300">
                           {recipe.ingredients.map((ing, i) => (
                             <li key={i}>{ing}</li>
@@ -664,7 +648,7 @@ Respond strictly in this exact JSON structure:
 
                       {/* Instructions */}
                       <div>
-                        <h4 className="font-bold text-sm mb-2 text-yellow-500">Cooking Steps:</h4>
+                        <h4 className="font-bold text-sm mb-2 text-amber-500">Cooking Steps:</h4>
                         <ol className="list-decimal list-inside text-xs space-y-1.5 text-gray-600 dark:text-gray-300">
                           {recipe.instructions.map((step, i) => (
                             <li key={i}>{step}</li>
@@ -675,7 +659,7 @@ Respond strictly in this exact JSON structure:
 
                     <button
                       onClick={() => logMealItem(recipe.title, recipe.calories, recipe.protein, recipe.carbs, recipe.fat)}
-                      className="w-full py-3 rounded-xl font-bold text-xs bg-yellow-500 hover:bg-yellow-600 text-white transition flex items-center justify-center gap-1.5 shadow"
+                      className="w-full py-3 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-600 text-white transition flex items-center justify-center gap-1.5 shadow"
                     >
                       <Plus className="w-4 h-4" /> Add to Daily Macro Log
                     </button>
@@ -690,14 +674,12 @@ Respond strictly in this exact JSON structure:
             TAB 3: CALORIE & MACRO TRACKER
            ======================================================== */}
         {activeTab === "tracker" && (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {/* Visual Macro Progress Dashboard */}
-            <div className={`p-8 rounded-3xl border shadow-xl ${
-              darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-            }`}>
+            <div className="glass-panel p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold flex items-center gap-2 text-yellow-500">
+                  <h2 className="text-2xl font-bold flex items-center gap-2 text-amber-500">
                     <Activity className="w-6 h-6" /> Daily Calorie & Macro Dashboard
                   </h2>
                   <p className="text-xs text-gray-400">Track your daily intake vs. your target goals</p>
@@ -749,7 +731,7 @@ Respond strictly in this exact JSON structure:
 
               {/* Add Custom Meal Form */}
               <div className="border-t pt-6 dark:border-gray-700">
-                <h3 className="font-bold text-lg mb-4 text-yellow-500">Quick Log a Custom Meal</h3>
+                <h3 className="font-bold text-lg mb-4 text-amber-500">Quick Log a Custom Meal</h3>
                 <form onSubmit={handleAddCustomMeal} className="grid grid-cols-1 sm:grid-cols-6 gap-3">
                   <input
                     type="text"
@@ -791,7 +773,7 @@ Respond strictly in this exact JSON structure:
                   />
                   <button
                     type="submit"
-                    className="p-3 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl transition shadow flex items-center justify-center gap-1 text-sm"
+                    className="p-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition shadow flex items-center justify-center gap-1 text-sm"
                   >
                     <Plus className="w-4 h-4" /> Log Meal
                   </button>
@@ -803,7 +785,7 @@ Respond strictly in this exact JSON structure:
             <div className={`p-8 rounded-3xl border shadow-xl ${
               darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}>
-              <h3 className="text-xl font-bold mb-4 text-yellow-500">Today&apos;s Logged Meals ({dailyLog.length})</h3>
+              <h3 className="text-xl font-bold mb-4 text-amber-500">Today&apos;s Logged Meals ({dailyLog.length})</h3>
 
               {dailyLog.length === 0 ? (
                 <div className="text-center py-10 text-gray-400 text-sm">

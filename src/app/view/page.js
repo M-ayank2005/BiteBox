@@ -243,13 +243,28 @@ const RecipeContent = () => {
     }
   };
 
-  // Helper to extract step list from recipe content
+  // Helper to extract step list from recipe content (handling legacy JSON & HTML)
   const extractSteps = () => {
     if (!recipe || !recipe.content) return ["Read recipe instructions carefully."];
     
-    // Remove HTML tags for step array
+    // Case 1: Legacy Draft.js JSON string
+    if (typeof recipe.content === "string" && recipe.content.trim().startsWith("{")) {
+      try {
+        const parsed = JSON.parse(recipe.content);
+        if (parsed && Array.isArray(parsed.blocks)) {
+          const blockTexts = parsed.blocks
+            .map((b) => (b.text ? b.text.trim() : ""))
+            .filter((t) => t.length > 0);
+          if (blockTexts.length > 0) return blockTexts;
+        }
+      } catch (e) {
+        console.warn("Legacy JSON step parsing skipped:", e);
+      }
+    }
+
+    // Case 2: Clean HTML tags for step array
     const plainText = recipe.content.replace(/<[^>]+>/g, "\n");
-    const lines = plainText.split("\n").map(l => l.trim()).filter(l => l.length > 5);
+    const lines = plainText.split("\n").map(l => l.trim()).filter(l => l.length > 0);
     return lines.length > 0 ? lines : [plainText];
   };
 

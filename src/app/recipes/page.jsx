@@ -177,21 +177,21 @@ const RecipesPage = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Apple Water Glass Header */}
-        <div className="glass-panel flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-8">
+        <div className="glass-panel flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 p-6 sm:p-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 mb-1">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 mb-2">
               <Utensils className="w-4 h-4" /> Recipe Explorer & Community Remixes
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Discover Delicious Recipes</h1>
-            <p className="text-slate-600 dark:text-zinc-400 text-sm mt-1">Search, filter by dietary requirements, or remix community recipes.</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">Discover Delicious Recipes</h1>
+            <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base mt-2">Search, filter by dietary requirements, or remix community recipes.</p>
           </div>
 
           <button
             onClick={handlePostRecipeClick}
-            className="glass-button-accent px-6 py-3 rounded-full text-sm flex items-center gap-1.5"
+            className="glass-button-accent w-full sm:w-auto px-6 py-3 rounded-full text-sm flex items-center justify-center gap-1.5"
           >
             + Post New Recipe
           </button>
@@ -249,8 +249,8 @@ const RecipesPage = () => {
                 onClick={() => setSelectedHealthFilter(filter.id)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition border ${
                   selectedHealthFilter === filter.id
-                    ? "bg-yellow-500 text-white border-yellow-500 shadow-md"
-                    : `${darkMode ? "bg-gray-800 border-gray-700 text-gray-300" : "bg-white border-gray-300 text-gray-700"} hover:border-yellow-500`
+                    ? "bg-amber-500 text-white border-amber-500 shadow-md"
+                    : `${darkMode ? "bg-zinc-800 border-zinc-700 text-zinc-300" : "bg-white border-gray-300 text-gray-700"} hover:border-amber-500`
                 }`}
               >
                 {filter.label}
@@ -271,8 +271,8 @@ const RecipesPage = () => {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition ${
                   selectedCategory === category
-                    ? "bg-yellow-600 text-white shadow"
-                    : `${darkMode ? "bg-gray-800 text-gray-300 hover:bg-gray-700" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`
+                    ? "bg-amber-600 text-white shadow"
+                    : `${darkMode ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`
                 }`}
               >
                 {category}
@@ -281,13 +281,12 @@ const RecipesPage = () => {
           </div>
         </div>
 
-        {/* Results Counter */}
-        <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 border-b pb-3 dark:border-gray-800">
+        <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 border-b pb-3 dark:border-zinc-800">
           <span>Showing <strong>{filteredRecipes.length}</strong> recipes</span>
           {(selectedCategory !== "All" || selectedHealthFilter !== "All" || searchQuery) && (
             <button
               onClick={() => { setSelectedCategory("All"); setSelectedHealthFilter("All"); setSearchQuery(""); }}
-              className="text-yellow-500 hover:underline font-bold"
+              className="text-amber-500 hover:underline font-bold"
             >
               Reset Filters
             </button>

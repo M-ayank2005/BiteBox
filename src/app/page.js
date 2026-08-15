@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Footer from '@/Components/Footer'
 import Card from '@/Components/card'
+import CustomerReviewCarousel from '@/Components/CustomerReviewCarousel'
 import { useDarkMode } from './DarkModeContext'
 import { useRouter } from 'next/navigation'
 import { 
@@ -13,7 +14,8 @@ import {
   ShoppingCart, 
   ArrowRight,
   Flame,
-  Award
+  Award,
+  Star
 } from 'lucide-react'
 import { UserAuth } from './context/AuthContext' 
 import recipes from '../lib/Homepagerecipe.json'
@@ -128,33 +130,35 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-12">
-      {/* Apple Water Glass Hero Panel */}
-      <div className="max-w-6xl mx-auto glass-panel p-8 sm:p-14 text-center space-y-6">
-        <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto">
+    <div className="min-h-screen py-6 sm:py-10 px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+      {/* Sleek Apple Water Glass Hero Panel */}
+      <div className="max-w-6xl mx-auto glass-panel p-6 sm:p-12 lg:p-16 text-center space-y-6 sm:space-y-8">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto tracking-wide uppercase">
           Welcome to BiteBox Community
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-          Are You A <span className="text-amber-500">{currentAttribute}</span>
-          <span className="animate-pulse">|</span> Foodie?
-        </h1>
+        <div className="space-y-4">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+            Are You A <span className="text-amber-500">{currentAttribute}</span>
+            <span className="animate-pulse text-amber-500">|</span> Foodie?
+          </h1>
 
-        <p className="text-base sm:text-lg text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-          Your all-in-one AI culinary hub. Plan healthy meals, cook step-by-step, stream live, and manage smart grocery lists.
-        </p>
+          <p className="text-sm sm:text-lg lg:text-xl text-slate-600 dark:text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+            Your all-in-one AI culinary hub. Plan healthy meals, cook step-by-step, stream live, and manage smart grocery lists.
+          </p>
+        </div>
 
         <div className="flex flex-wrap justify-center gap-4 pt-2">
           <button
             onClick={() => router.push('/recipes')}
-            className="glass-button-accent px-6 py-3.5 rounded-full text-sm flex items-center gap-2"
+            className="glass-button-accent px-8 py-4 rounded-full text-base flex items-center gap-2"
           >
-            Explore Recipes <ArrowRight className="w-4 h-4" />
+            Explore Recipes <ArrowRight className="w-5 h-5" />
           </button>
 
           <button
             onClick={() => router.push('/menu')}
-            className="glass-button-primary px-6 py-3.5 rounded-full text-sm flex items-center gap-2"
+            className="glass-button-primary px-8 py-4 rounded-full text-base flex items-center gap-2"
           >
             AI Diet Planner
           </button>
@@ -195,11 +199,11 @@ export default function Home() {
       </div>
 
       {/* Featured Recipes Section (Frosted Glass Panel) */}
-      <div className="max-w-7xl mx-auto glass-panel p-8 sm:p-10 space-y-8">
+      <div className="max-w-7xl mx-auto glass-panel p-6 sm:p-10 space-y-6 sm:space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Featured Recipes</h2>
-            <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">Hand-picked culinary favorites from our community</p>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 mt-1">Hand-picked culinary favorites from our community</p>
           </div>
 
           <button
@@ -220,6 +224,21 @@ export default function Home() {
               description={recipe.instruction.slice(0, 60) + '...'}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Customer Reviews & Feedback Section */}
+      <div className="max-w-5xl mx-auto glass-panel p-6 sm:p-12 space-y-6 sm:space-y-8 text-center">
+        <CustomerReviewCarousel />
+
+        <div className="pt-6 border-t border-slate-200/60 dark:border-zinc-800/60 flex flex-col items-center gap-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-zinc-300">Enjoyed your experience on BiteBox?</p>
+          <button
+            onClick={() => router.push('/custoratings')}
+            className="glass-button-accent px-8 py-3 rounded-full text-sm font-bold shadow-md transition flex items-center gap-2"
+          >
+            <Star className="w-4 h-4 fill-current text-white" /> Rate Us & Leave a Review
+          </button>
         </div>
       </div>
 
