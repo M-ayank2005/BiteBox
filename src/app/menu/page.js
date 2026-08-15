@@ -279,28 +279,26 @@ Respond strictly in this exact JSON structure:
   };
 
   return (
-    <main className={`min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
-    }`}>
+    <main className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header Hero Banner */}
-        <div className="text-center space-y-3 bg-amber-500 dark:bg-gray-800 text-white p-8 sm:p-10 rounded-3xl shadow-lg border border-amber-600 dark:border-gray-700">
-          <div className="inline-flex items-center gap-2 bg-black/20 text-white text-xs font-extrabold uppercase px-4 py-1.5 rounded-full">
-            <Sparkles className="w-4 h-4 text-amber-200" /> BiteBox AI Nutrition & Health Companion
+        {/* Apple Water Glass Hero Banner */}
+        <div className="glass-panel text-center p-8 sm:p-10 space-y-4">
+          <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase px-4 py-1.5 rounded-full border border-amber-500/20">
+            BiteBox AI Nutrition & Health Companion
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">Smart Dietitian & Meal Hub</h1>
-          <p className="text-amber-100 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto">
+          <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto">
             Personalized AI meal plans tailored to your health goals, Fridge Chef recipe generator, and daily macro tracking.
           </p>
 
           {/* Navigation Tab Pills */}
-          <div className="flex flex-wrap justify-center gap-2 pt-4">
+          <div className="flex flex-wrap justify-center gap-2 pt-2">
             <button
               onClick={() => setActiveTab("planner")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition ${
                 activeTab === "planner"
-                  ? "bg-white text-amber-600 shadow-md"
-                  : "bg-black/20 text-white hover:bg-black/30"
+                  ? "bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-md"
+                  : "bg-white/60 dark:bg-zinc-800/60 text-slate-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-800 border border-slate-200/60 dark:border-zinc-700/60"
               }`}
             >
               <Utensils className="w-4 h-4" /> AI Meal Planner
@@ -310,8 +308,8 @@ Respond strictly in this exact JSON structure:
               onClick={() => setActiveTab("fridge")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition ${
                 activeTab === "fridge"
-                  ? "bg-white text-amber-600 shadow-md"
-                  : "bg-black/20 text-white hover:bg-black/30"
+                  ? "bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-md"
+                  : "bg-white/60 dark:bg-zinc-800/60 text-slate-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-800 border border-slate-200/60 dark:border-zinc-700/60"
               }`}
             >
               <Refrigerator className="w-4 h-4" /> AI Fridge Chef
@@ -321,8 +319,8 @@ Respond strictly in this exact JSON structure:
               onClick={() => setActiveTab("tracker")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition ${
                 activeTab === "tracker"
-                  ? "bg-white text-amber-600 shadow-md"
-                  : "bg-black/20 text-white hover:bg-black/30"
+                  ? "bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-md"
+                  : "bg-white/60 dark:bg-zinc-800/60 text-slate-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-800 border border-slate-200/60 dark:border-zinc-700/60"
               }`}
             >
               <Activity className="w-4 h-4" /> Calorie & Macro Tracker

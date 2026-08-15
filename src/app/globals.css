@@ -2,41 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* public/css/globals.css */
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
-
-/* Light mode (default) */
+/* Apple Water Glass / Glassmorphism Theme */
 body {
-    @apply bg-white text-black;
+  @apply bg-slate-50 text-slate-900 antialiased selection:bg-amber-500 selection:text-white;
+}
+
+.dark body {
+  @apply bg-zinc-950 text-zinc-100;
+}
+
+/* Glassmorphism Utilities */
+@layer utilities {
+  .glass-nav {
+    @apply bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl border-b border-gray-200/60 dark:border-zinc-800/60 shadow-sm sticky top-0 z-50 transition-colors duration-300;
   }
-  
-  /* Dark mode */
-  .dark body {
-    @apply bg-black text-white;
+
+  .glass-panel {
+    @apply bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/80 dark:border-zinc-800/60 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] rounded-3xl;
   }
-  /* Scrollbar styles (Light Mode) */
-  body::-webkit-scrollbar {
-    width: 12px;
+
+  .glass-card {
+    @apply bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md border border-gray-200/60 dark:border-zinc-800/60 rounded-2xl shadow-sm hover:shadow-xl hover:bg-white/90 dark:hover:bg-zinc-800/90 transition-all duration-300;
   }
-  
-  body::-webkit-scrollbar-thumb {
-    @apply bg-gray-600; /* Light mode thumb */
+
+  .glass-input {
+    @apply bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md border border-gray-200 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all;
   }
-  
-  body::-webkit-scrollbar-track {
-    @apply bg-gray-300; /* Light mode track */
+
+  .glass-button-primary {
+    @apply bg-zinc-900 hover:bg-black dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 font-bold transition-all duration-200 active:scale-95 shadow-md;
   }
-  
-  /* Scrollbar styles (Dark Mode) */
-  .dark body::-webkit-scrollbar-thumb {
-    @apply bg-white; /* Dark mode thumb */
+
+  .glass-button-accent {
+    @apply bg-amber-500 hover:bg-amber-600 text-white font-bold transition-all duration-200 active:scale-95 shadow-md;
   }
-  
-  .dark body::-webkit-scrollbar-track {
-    @apply bg-gray-800; /* Dark mode track */
-  }
+}
+
+/* Scrollbar styles */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply bg-gray-400/50 dark:bg-zinc-700/50 rounded-full;
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
 
 .blinking-cursor {
   font-weight: bold;
@@ -44,82 +60,6 @@ body {
 }
 
 @keyframes blink {
-  from, to {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
 }
-
-.typingText {
-  font-size: 2rem;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  border-right: 3px solid transparent;
-  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
-}
-
-.typingDescription {
-  font-size: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid transparent;
-  animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blink-caret {
-  50% {
-    border-color: transparent;
-  }
-}
-
-/* styles/CustomerReviewCarousel.module.css */
-
-.carousel-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.review-slide {
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 10px;
-}
-
-.review-slide h3 {
-  margin-top: 10px;
-  font-weight: 600;
-}
-
-.review-slide p {
-  font-size: 1.1rem;
-  color: #333;
-}
-.blinking-underscore {
-  display: inline-block;
-  animation: blink 1s step-start infinite;
-}
-
-@keyframes blink {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-

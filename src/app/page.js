@@ -128,48 +128,44 @@ export default function Home() {
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
-      {/* Hero Section */}
-      <div className={`py-16 px-4 sm:px-6 lg:px-8 border-b ${darkMode ? 'bg-gray-800/50 border-gray-800' : 'bg-white border-gray-200'}`}>
-        <div className="max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto">
-            Welcome to BiteBox Community
-          </div>
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 space-y-12">
+      {/* Apple Water Glass Hero Panel */}
+      <div className="max-w-6xl mx-auto glass-panel p-8 sm:p-14 text-center space-y-6">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mx-auto">
+          Welcome to BiteBox Community
+        </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            Are You A <span className="text-amber-500">{currentAttribute}</span>
-            <span className="animate-pulse">|</span> Foodie?
-          </h1>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+          Are You A <span className="text-amber-500">{currentAttribute}</span>
+          <span className="animate-pulse">|</span> Foodie?
+        </h1>
 
-          <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Your all-in-one AI culinary hub. Plan healthy meals, cook step-by-step, stream live, and manage smart grocery lists.
-          </p>
+        <p className="text-base sm:text-lg text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+          Your all-in-one AI culinary hub. Plan healthy meals, cook step-by-step, stream live, and manage smart grocery lists.
+        </p>
 
-          <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <button
-              onClick={() => router.push('/recipes')}
-              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow transition flex items-center gap-2 text-sm"
-            >
-              Explore Recipes <ArrowRight className="w-4 h-4" />
-            </button>
+        <div className="flex flex-wrap justify-center gap-4 pt-2">
+          <button
+            onClick={() => router.push('/recipes')}
+            className="glass-button-accent px-6 py-3.5 rounded-full text-sm flex items-center gap-2"
+          >
+            Explore Recipes <ArrowRight className="w-4 h-4" />
+          </button>
 
-            <button
-              onClick={() => router.push('/menu')}
-              className={`px-6 py-3.5 font-bold rounded-xl border transition text-sm flex items-center gap-2 ${
-                darkMode ? 'border-gray-700 bg-gray-800 hover:bg-gray-700 text-white' : 'border-gray-300 bg-white hover:bg-gray-100 text-gray-800'
-              }`}
-            >
-              AI Diet Planner
-            </button>
-          </div>
+          <button
+            onClick={() => router.push('/menu')}
+            className="glass-button-primary px-6 py-3.5 rounded-full text-sm flex items-center gap-2"
+          >
+            AI Diet Planner
+          </button>
         </div>
       </div>
 
-      {/* Main Features Hub Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+      {/* Main Features Hub Section (Apple Liquid Glass Grid) */}
+      <div className="max-w-7xl mx-auto space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-extrabold">Explore BiteBox Features</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Everything you need to discover, cook, and connect in one clean platform</p>
+          <h2 className="text-3xl font-extrabold tracking-tight">Explore BiteBox Features</h2>
+          <p className="text-sm text-slate-500 dark:text-zinc-400">Everything you need to discover, cook, and connect in one clean platform</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -179,19 +175,17 @@ export default function Home() {
               <div
                 key={idx}
                 onClick={() => router.push(card.link)}
-                className={`p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between hover:shadow-lg hover:border-amber-500/50 ${
-                  darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-                }`}
+                className="glass-card p-6 cursor-pointer flex flex-col justify-between"
               >
                 <div className="space-y-4">
-                  <div className={`w-12 h-12 rounded-xl ${card.color} flex items-center justify-center shadow-md`}>
+                  <div className={`w-12 h-12 rounded-2xl ${card.color} flex items-center justify-center shadow-md`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <h3 className="font-bold text-lg">{card.title}</h3>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{card.desc}</p>
+                  <p className="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">{card.desc}</p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t dark:border-gray-700/50 flex items-center text-xs font-bold text-amber-500 group">
+                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-zinc-800/60 flex items-center text-xs font-bold text-amber-500 group">
                   Open Feature <ArrowRight className="w-3.5 h-3.5 ml-1 transition group-hover:translate-x-1" />
                 </div>
               </div>
@@ -200,34 +194,32 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Uncluttered Featured Recipes Section (Only 4 Items) */}
-      <div className={`py-16 border-t ${darkMode ? 'bg-gray-800/30 border-gray-800' : 'bg-white border-gray-200'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h2 className="text-3xl font-extrabold">Featured Recipes</h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Hand-picked culinary favorites from our community</p>
-            </div>
-
-            <button
-              onClick={() => router.push('/recipes')}
-              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition shadow flex items-center gap-1.5"
-            >
-              See All Recipes ({recipes.length}+) <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+      {/* Featured Recipes Section (Frosted Glass Panel) */}
+      <div className="max-w-7xl mx-auto glass-panel p-8 sm:p-10 space-y-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Featured Recipes</h2>
+            <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1">Hand-picked culinary favorites from our community</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredRecipes.map((recipe) => (
-              <Card
-                key={recipe.id}
-                id={recipe.id}
-                imageSrc={recipe.imageLink}
-                title={recipe.title}
-                description={recipe.instruction.slice(0, 60) + '...'}
-              />
-            ))}
-          </div>
+          <button
+            onClick={() => router.push('/recipes')}
+            className="glass-button-accent px-5 py-2.5 rounded-full text-xs flex items-center gap-1.5"
+          >
+            See All Recipes ({recipes.length}+) <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredRecipes.map((recipe) => (
+            <Card
+              key={recipe.id}
+              id={recipe.id}
+              imageSrc={recipe.imageLink}
+              title={recipe.title}
+              description={recipe.instruction.slice(0, 60) + '...'}
+            />
+          ))}
         </div>
       </div>
 

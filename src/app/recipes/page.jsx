@@ -177,23 +177,21 @@ const RecipesPage = () => {
   };
 
   return (
-    <div className={`min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
-    }`}>
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header & Post Button */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-amber-500 dark:bg-gray-800 text-white p-8 rounded-3xl shadow-lg border border-amber-600 dark:border-gray-700">
+        {/* Apple Water Glass Header */}
+        <div className="glass-panel flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-100 mb-1">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-500 mb-1">
               <Utensils className="w-4 h-4" /> Recipe Explorer & Community Remixes
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Discover Delicious Recipes</h1>
-            <p className="text-amber-100 dark:text-gray-300 text-sm mt-1">Search, filter by dietary requirements, or remix community recipes.</p>
+            <p className="text-slate-600 dark:text-zinc-400 text-sm mt-1">Search, filter by dietary requirements, or remix community recipes.</p>
           </div>
 
           <button
             onClick={handlePostRecipeClick}
-            className="px-6 py-3.5 bg-white text-amber-600 hover:bg-amber-50 font-bold rounded-full shadow transition active:scale-95 text-sm"
+            className="glass-button-accent px-6 py-3 rounded-full text-sm flex items-center gap-1.5"
           >
             + Post New Recipe
           </button>
