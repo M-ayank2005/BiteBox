@@ -63,7 +63,7 @@ const Navbar = () => {
                         <NavLink href="/">Home</NavLink>
                         <NavLink href="/recipes">Recipes</NavLink>
                         <NavLink href="/menu">AI Diet & Menu</NavLink>
-                        <NavLink href="/streams">Live Streams</NavLink>
+                        <NavLink href="/more">Community</NavLink>
 
                         <div className="pl-3 pr-1">
                             <ModeToggle />
@@ -106,7 +106,7 @@ const Navbar = () => {
                         <NavLink href="/">Home</NavLink>
                         <NavLink href="/recipes">Recipes</NavLink>
                         <NavLink href="/menu">AI Diet & Menu</NavLink>
-                        <NavLink href="/streams">Live Streams</NavLink>
+                        <NavLink href="/more">Community</NavLink>
                                         
                         {!loading && (
                             <div className="pt-3 border-t border-slate-200/60 dark:border-zinc-800/60">
