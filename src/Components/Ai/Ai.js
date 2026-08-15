@@ -103,8 +103,8 @@ function Ai() {
         }
     };
 
-    // Hide on chat page
-    if (pathname === '/chat') return null;
+    // Only show on home page
+    if (pathname !== '/') return null;
 
     return (
         <Link href="/chat" passHref onClick={handleClick}>

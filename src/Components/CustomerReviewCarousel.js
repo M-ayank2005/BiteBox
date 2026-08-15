@@ -34,9 +34,7 @@ const CustomerReviewCarousel = () => {
 
   return (
     <div
-      className={`p-4 sm:p-5 rounded-2xl shadow-xl max-w-full sm:max-w-4xl mx-auto pb-6 ${
-        darkMode ? 'bg-gray-800' : 'bg-white'
-      }`}
+      className="glass-panel p-4 sm:p-5 max-w-full sm:max-w-4xl mx-auto pb-6"
     >
       <h1
         className={`text-center font-bold text-3xl sm:text-3xl mb-3 ${
@@ -53,9 +51,7 @@ const CustomerReviewCarousel = () => {
               className="px-4"
             >
               <div
-                className={`flex flex-col items-center justify-center text-center p-3 sm:p-4 rounded-xl ${
-                  darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                }`}
+                className="glass-card flex flex-col items-center justify-center text-center p-3 sm:p-4"
               >
                 {/* Rating Stars */}
                 <div className="flex items-center justify-center gap-1 mb-1">
@@ -63,10 +59,10 @@ const CustomerReviewCarousel = () => {
                     <svg
                       key={idx}
                       xmlns="http://www.w3.org/2000/svg"
-                      fill={idx < review.rating ? '#FCD34D' : 'none'}
+                      fill={idx < review.rating ? '#f59e0b' : 'none'}
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
-                      stroke={idx < review.rating ? '#FCD34D' : darkMode ? '#6B7280' : '#D1D5DB'}
+                      stroke={idx < review.rating ? '#f59e0b' : darkMode ? '#6B7280' : '#D1D5DB'}
                       className="w-7 h-7 sm:w-8 sm:h-8"
                     >
                       <path
@@ -79,7 +75,7 @@ const CustomerReviewCarousel = () => {
                 </div>
                 
                 {/* Rating Score */}
-                <div className={`text-xl font-bold mb-4 ${darkMode ? 'text-yellow-400' : 'text-yellow-500'}`}>
+                <div className="text-xl font-bold mb-4 text-amber-500">
                   {review.rating}.0 / 5.0
                 </div>
                 

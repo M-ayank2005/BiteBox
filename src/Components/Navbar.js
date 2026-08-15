@@ -16,6 +16,8 @@ const Navbar = () => {
 
     const isActive = (path) => pathname === path;
 
+    if (pathname === '/chat') return null;
+
     const NavLink = ({ href, children }) => {
         const active = isActive(href);
         return (

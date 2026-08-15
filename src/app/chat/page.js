@@ -1,17 +1,19 @@
 'use client'
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleGenAI } from "@google/genai";
+import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import { useDarkMode } from "../DarkModeContext";
-import { Send, Bot, User, Sparkles, RefreshCw, Trash2, ChefHat, ArrowRight } from "lucide-react";
+import { Send, Bot, User, Sparkles, RefreshCw, Trash2, ChefHat, ArrowRight, ArrowLeft } from "lucide-react";
 
 function Chat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showQuickOptions, setShowQuickOptions] = useState(true);
+  const router = useRouter();
   const [messages, setMessages] = useState([
     {
       role: "bot",
@@ -137,11 +139,18 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
       darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
     }`}>
       {/* Top Header Bar */}
-      <header className={`px-6 py-4 border-b flex items-center justify-between shadow-sm sticky top-0 z-10 ${
+      <header className={`px-4 sm:px-6 py-4 border-b flex items-center justify-between shadow-sm sticky top-0 z-10 ${
         darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
       }`}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white shadow">
+          <button 
+            onClick={() => router.back()} 
+            className="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-500" />
+          </button>
+          <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white shadow hidden sm:flex">
             <ChefHat className="w-6 h-6" />
           </div>
           <div>

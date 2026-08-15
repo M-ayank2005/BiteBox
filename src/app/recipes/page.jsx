@@ -37,12 +37,12 @@ const RecipesPage = () => {
 
   const healthFilters = [
     { id: "All", label: "All Recipes" },
-    { id: "protein", label: "🥗 High Protein" },
-    { id: "keto", label: "🥑 Keto / Low Carb" },
-    { id: "diabetic", label: "🩺 Diabetic Friendly" },
-    { id: "sodium", label: "🫀 Low Sodium" },
-    { id: "vegan", label: "🌱 Vegan" },
-    { id: "quick", label: "⏱️ Under 20 Mins" }
+    { id: "protein", label: "High Protein" },
+    { id: "keto", label: "Keto / Low Carb" },
+    { id: "diabetic", label: "Diabetic Friendly" },
+    { id: "sodium", label: "Low Sodium" },
+    { id: "vegan", label: "Vegan" },
+    { id: "quick", label: "Under 20 Mins" }
   ];
 
   useEffect(() => {

@@ -335,14 +335,14 @@ Respond strictly in this exact JSON structure:
           <div className="space-y-6 sm:space-y-8">
             <div className="glass-panel p-6 sm:p-8">
               <h2 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-amber-500">
-                <Sparkles className="w-6 h-6" /> Configure Your Health & Fitness Profile
+                Configure Your Health & Fitness Profile
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 {/* Fitness Goal */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
-                    <Scale className="w-4 h-4 text-amber-500" /> Fitness Goal
+                    Fitness Goal
                   </label>
                   <select
                     value={goal}
@@ -359,7 +359,7 @@ Respond strictly in this exact JSON structure:
                 {/* Dietary Style */}
                 <div>
                   <label className="block text-sm font-semibold mb-2 flex items-center gap-2">
-                    <Utensils className="w-4 h-4 text-amber-500" /> Dietary Style
+                    Dietary Style
                   </label>
                   <select
                     value={dietStyle}
@@ -379,7 +379,7 @@ Respond strictly in this exact JSON structure:
                 <div>
                   <label className="block text-sm font-semibold mb-2 flex items-center justify-between">
                     <span className="flex items-center gap-2">
-                      <Flame className="w-4 h-4 text-orange-500" /> Daily Target Calories
+                      Daily Target Calories
                     </span>
                     <span className="font-bold text-amber-500">{calorieTarget} kcal</span>
                   </label>
@@ -403,7 +403,7 @@ Respond strictly in this exact JSON structure:
               {/* Health Conditions / Restrictions */}
               <div className="space-y-3 mb-8">
                 <label className="block text-sm font-semibold flex items-center gap-2">
-                  <HeartPulse className="w-4 h-4 text-red-500" /> Health Conditions & Medical Dietary Needs
+                  Health Conditions & Medical Dietary Needs
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {healthConditionsList.map((cond) => {
@@ -427,25 +427,26 @@ Respond strictly in this exact JSON structure:
                 </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={handleGenerateMealPlan}
-                disabled={isGeneratingPlan}
-                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
-                  isGeneratingPlan ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                {isGeneratingPlan ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
-                    <span>Gemini AI is crafting your meal plan...</span>
-                  </div>
-                ) : (
-                  <>
-                    <Sparkles className="w-6 h-6" /> Generate Personalized AI Meal Plan
-                  </>
-                )}
-              </button>
+              <div className="flex justify-center">
+                <button
+                  onClick={handleGenerateMealPlan}
+                  disabled={isGeneratingPlan}
+                  className={`w-full max-w-md py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
+                    isGeneratingPlan ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isGeneratingPlan ? (
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                      <span>Gemini AI is crafting your meal plan...</span>
+                    </div>
+                  ) : (
+                    <>
+                      Generate Personalized AI Meal Plan
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Generated AI Plan Display */}
