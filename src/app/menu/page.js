@@ -431,7 +431,7 @@ Respond strictly in this exact JSON structure:
                 <button
                   onClick={handleGenerateMealPlan}
                   disabled={isGeneratingPlan}
-                  className={`w-full max-w-md py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
+                  className={`w-full max-w-md py-4 rounded-2xl font-extrabold text-lg text-white bg-amber-500 hover:bg-amber-600 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
                     isGeneratingPlan ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
@@ -591,24 +591,26 @@ Respond strictly in this exact JSON structure:
               </div>
 
               {/* Action Button */}
-              <button
-                onClick={handleGenerateFridgeRecipes}
-                disabled={isGeneratingRecipes || ingredients.length === 0}
-                className={`w-full py-4 rounded-2xl font-extrabold text-lg text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
-                  isGeneratingRecipes || ingredients.length === 0 ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                {isGeneratingRecipes ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
-                    <span>Gemini AI is creating recipes...</span>
-                  </div>
-                ) : (
-                  <>
-                    <Sparkles className="w-6 h-6" /> Generate Custom AI Recipes
-                  </>
-                )}
-              </button>
+              <div className="flex justify-center">
+                <button
+                  onClick={handleGenerateFridgeRecipes}
+                  disabled={isGeneratingRecipes || ingredients.length === 0}
+                  className={`w-full max-w-md py-4 rounded-2xl font-extrabold text-lg text-white bg-amber-500 hover:bg-amber-600 shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-3 ${
+                    isGeneratingRecipes || ingredients.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isGeneratingRecipes ? (
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                      <span>Gemini AI is creating recipes...</span>
+                    </div>
+                  ) : (
+                    <>
+                      Generate Custom AI Recipes
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Generated Recipes */}
@@ -697,36 +699,36 @@ Respond strictly in this exact JSON structure:
               {/* Progress Gauges */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {/* Calories */}
-                <div className="bg-gradient-to-br from-orange-500 to-amber-500 text-white p-5 rounded-2xl shadow-lg space-y-2">
-                  <span className="text-xs font-extrabold uppercase opacity-80">Calories Consumed</span>
-                  <div className="text-3xl font-black">{totalConsumed.calories} <span className="text-sm font-normal opacity-80">/ {calorieTarget} kcal</span></div>
-                  <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
+                <div className="glass-card p-5 space-y-2 hover:translate-y-0">
+                  <span className="text-xs font-extrabold uppercase text-amber-500">Calories Consumed</span>
+                  <div className="text-3xl font-black">{totalConsumed.calories} <span className="text-sm font-normal text-slate-400">/ {calorieTarget} kcal</span></div>
+                  <div className="w-full bg-gray-200 dark:bg-zinc-700 h-2 rounded-full overflow-hidden">
                     <div 
-                      className="bg-white h-full transition-all duration-500" 
+                      className="bg-amber-500 h-full transition-all duration-500 rounded-full" 
                       style={{ width: `${Math.min(100, (totalConsumed.calories / calorieTarget) * 100)}%` }} 
                     />
                   </div>
                 </div>
 
                 {/* Protein */}
-                <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-5 rounded-2xl shadow-lg space-y-2">
-                  <span className="text-xs font-extrabold uppercase opacity-80">Protein</span>
+                <div className="glass-card p-5 space-y-2 hover:translate-y-0">
+                  <span className="text-xs font-extrabold uppercase text-blue-500">Protein</span>
                   <div className="text-3xl font-black">{totalConsumed.protein}g</div>
-                  <div className="text-xs opacity-80">Muscle building & repair</div>
+                  <div className="text-xs text-slate-400">Muscle building & repair</div>
                 </div>
 
                 {/* Carbs */}
-                <div className="bg-gradient-to-br from-emerald-600 to-teal-600 text-white p-5 rounded-2xl shadow-lg space-y-2">
-                  <span className="text-xs font-extrabold uppercase opacity-80">Carbohydrates</span>
+                <div className="glass-card p-5 space-y-2 hover:translate-y-0">
+                  <span className="text-xs font-extrabold uppercase text-emerald-500">Carbohydrates</span>
                   <div className="text-3xl font-black">{totalConsumed.carbs}g</div>
-                  <div className="text-xs opacity-80">Primary energy source</div>
+                  <div className="text-xs text-slate-400">Primary energy source</div>
                 </div>
 
                 {/* Fat */}
-                <div className="bg-gradient-to-br from-pink-600 to-rose-600 text-white p-5 rounded-2xl shadow-lg space-y-2">
-                  <span className="text-xs font-extrabold uppercase opacity-80">Healthy Fats</span>
+                <div className="glass-card p-5 space-y-2 hover:translate-y-0">
+                  <span className="text-xs font-extrabold uppercase text-rose-500">Healthy Fats</span>
                   <div className="text-3xl font-black">{totalConsumed.fat}g</div>
-                  <div className="text-xs opacity-80">Hormone & brain health</div>
+                  <div className="text-xs text-slate-400">Hormone & brain health</div>
                 </div>
               </div>
 

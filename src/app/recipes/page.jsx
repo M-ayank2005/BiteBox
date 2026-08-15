@@ -208,7 +208,7 @@ const RecipesPage = () => {
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               placeholder="Search by recipe name, ingredient, or keyword..."
-              className={`w-full pl-12 pr-10 py-3.5 rounded-full border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 transition shadow-sm ${
+              className={`w-full pl-12 pr-10 py-3.5 rounded-full border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-amber-500 transition shadow-sm ${
                 darkMode ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400" : "bg-white border-gray-300 text-gray-900"
               }`}
             />
@@ -228,7 +228,7 @@ const RecipesPage = () => {
                 <div
                   key={index}
                   onClick={() => { setSearchQuery(suggestion); setShowSuggestions(false); }}
-                  className="px-5 py-3 hover:bg-yellow-500/10 cursor-pointer text-sm font-medium border-b border-gray-100 dark:border-gray-700/50 last:border-b-0"
+                  className="px-5 py-3 hover:bg-amber-500/10 cursor-pointer text-sm font-medium border-b border-gray-100 dark:border-gray-700/50 last:border-b-0"
                 >
                   {suggestion}
                 </div>
@@ -239,8 +239,8 @@ const RecipesPage = () => {
 
         {/* Health & Dietary Multi-Filter Tabs */}
         <div className="space-y-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-yellow-500 flex items-center gap-1.5">
-            <Filter className="w-3.5 h-3.5" /> Health & Dietary Filters
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-500 flex items-center gap-1.5">
+            Health & Dietary Filters
           </span>
           <div className="flex flex-wrap gap-2">
             {healthFilters.map((filter) => (
@@ -262,7 +262,7 @@ const RecipesPage = () => {
         {/* Categories Bar */}
         <div className="space-y-3">
           <span className="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center gap-1.5">
-            <Utensils className="w-3.5 h-3.5" /> Meal Category
+            Meal Category
           </span>
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
@@ -328,7 +328,7 @@ const RecipesPage = () => {
                     objectFit="cover"
                     className="group-hover:opacity-90 transition"
                   />
-                  <span className="absolute top-3 left-3 bg-yellow-500 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow">
+                  <span className="absolute top-3 left-3 bg-amber-500 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow">
                     {recipe.category || "Recipe"}
                   </span>
                 </div>
@@ -336,7 +336,7 @@ const RecipesPage = () => {
                 {/* Card Content */}
                 <div className="p-6 space-y-3">
                   <div className="flex items-start justify-between gap-2">
-                    <h2 className="text-xl font-bold line-clamp-1 group-hover:text-yellow-500 transition">{recipe.title}</h2>
+                    <h2 className="text-xl font-bold line-clamp-1 group-hover:text-amber-500 transition">{recipe.title}</h2>
 
                     {/* Like Button */}
                     <button
@@ -364,14 +364,14 @@ const RecipesPage = () => {
               <div className="p-6 pt-0 flex gap-2">
                 <button
                   onClick={(e) => { e.stopPropagation(); handleRecipeClick(recipe); }}
-                  className="flex-1 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold text-xs rounded-xl transition shadow"
+                  className="flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition shadow"
                 >
                   View Recipe
                 </button>
 
                 <button
                   onClick={(e) => { e.stopPropagation(); handleRemixRecipe(recipe); }}
-                  className="px-3.5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-200 hover:text-yellow-600 font-bold text-xs rounded-xl transition flex items-center gap-1"
+                  className="px-3.5 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-gray-700 dark:text-gray-200 hover:text-amber-600 font-bold text-xs rounded-xl transition flex items-center gap-1"
                   title="Remix this recipe"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> Remix

@@ -116,26 +116,26 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       ) : (
-        <code className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
+        <code className="bg-amber-500/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>
           {children}
         </code>
       );
     },
-    h1: ({ children }) => <h1 className="text-2xl font-bold mb-3 text-yellow-500">{children}</h1>,
-    h2: ({ children }) => <h2 className="text-xl font-bold mb-2 text-yellow-500">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-lg font-bold mb-2 text-yellow-500">{children}</h3>,
+    h1: ({ children }) => <h1 className="text-2xl font-bold mb-3 text-amber-500">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-xl font-bold mb-2 text-amber-500">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-lg font-bold mb-2 text-amber-500">{children}</h3>,
     p: ({ children }) => <p className="mb-2 leading-relaxed">{children}</p>,
     ul: ({ children }) => <ul className="list-disc list-inside mb-3 space-y-1">{children}</ul>,
     ol: ({ children }) => <ol className="list-decimal list-inside mb-3 space-y-1">{children}</ol>,
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-yellow-500 pl-4 py-1 my-2 italic text-gray-600 dark:text-gray-300">
+      <blockquote className="border-l-4 border-amber-500 pl-4 py-1 my-2 italic text-gray-600 dark:text-gray-300">
         {children}
       </blockquote>
     )
   };
 
   return (
-    <div className={`w-full h-[calc(100vh-4rem)] flex flex-col transition-colors duration-300 ${
+    <div className={`w-full h-screen flex flex-col transition-colors duration-300 ${
       darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
     }`}>
       {/* Top Header Bar */}
@@ -156,7 +156,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
           <div>
             <h1 className="text-lg font-extrabold flex items-center gap-2">
               BiteBox Culinary AI
-              <span className="text-xs bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-2 py-0.5 rounded-full font-bold">
+              <span className="text-xs bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-bold">
                 Gemini 2.5
               </span>
             </h1>
@@ -186,7 +186,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
             >
               {/* Avatar Icon */}
               <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-xs shadow ${
-                message.role === "user" ? "bg-yellow-500" : "bg-emerald-600"
+                message.role === "user" ? "bg-amber-500" : "bg-emerald-600"
               }`}>
                 {message.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
               </div>
@@ -194,7 +194,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
               {/* Message Bubble */}
               <div className={`max-w-[85%] sm:max-w-[75%] p-4 rounded-2xl shadow-sm text-sm sm:text-base leading-relaxed ${
                 message.role === "user"
-                  ? "bg-yellow-500 text-white rounded-tr-none"
+                  ? "bg-amber-500 text-white rounded-tr-none"
                   : `${darkMode ? "bg-gray-800 text-gray-100 border border-gray-700" : "bg-white text-gray-800 border border-gray-200"} rounded-tl-none`
               }`}>
                 <ReactMarkdown
@@ -217,7 +217,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
                 darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
               }`}>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
+                  <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
                   <span>BiteBox AI is cooking a response...</span>
                 </div>
               </div>
@@ -241,15 +241,15 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
                 onClick={() => handleSendMessage(prompt.text)}
                 className={`p-3 rounded-xl border text-xs sm:text-sm text-left flex items-center justify-between transition-all hover:scale-[1.01] ${
                   darkMode
-                    ? "bg-gray-800 border-gray-700 hover:border-yellow-500 text-gray-200"
-                    : "bg-white border-gray-200 hover:border-yellow-500 text-gray-700"
+                    ? "bg-gray-800 border-gray-700 hover:border-amber-500 text-gray-200"
+                    : "bg-white border-gray-200 hover:border-amber-500 text-gray-700"
                 } shadow-sm group`}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-base">{prompt.emoji}</span>
                   <span className="font-medium">{prompt.text}</span>
                 </div>
-                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-yellow-500 transition" />
+                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-amber-500 transition" />
               </button>
             ))}
           </div>
@@ -272,7 +272,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about recipes, ingredients, dietary plans..."
-            className={`flex-1 p-3.5 rounded-xl border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-yellow-500 transition ${
+            className={`flex-1 p-3.5 rounded-xl border text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-amber-500 transition ${
               darkMode
                 ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
@@ -282,7 +282,7 @@ Use clear markdown formatting with lists, bold text, and emojis. Keep tone warm 
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className={`px-6 py-3.5 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-xl flex items-center gap-2 transition shadow active:scale-95 ${
+            className={`px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl flex items-center gap-2 transition shadow active:scale-95 ${
               isLoading || !input.trim() ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

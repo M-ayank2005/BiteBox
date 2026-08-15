@@ -172,16 +172,16 @@ function PostRecipeContent() {
                 required
               >
                 <option value="" disabled>Select a Category</option>
-                <option value="Appetizer">🥗 Appetizer</option>
-                <option value="Main Course">🍽️ Main Course</option>
-                <option value="Dessert">🍰 Dessert</option>
-                <option value="Breakfast">🍳 Breakfast</option>
-                <option value="Lunch">🥪 Lunch</option>
-                <option value="Dinner">🍖 Dinner</option>
-                <option value="Snack">🍿 Snack</option>
-                <option value="Beverage">🥤 Beverage</option>
-                <option value="Salad">🥬 Salad</option>
-                <option value="Soup">🥣 Soup</option>
+                <option value="Appetizer">Appetizer</option>
+                <option value="Main Course">Main Course</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+                <option value="Beverage">Beverage</option>
+                <option value="Salad">Salad</option>
+                <option value="Soup">Soup</option>
               </select>
             </div>
           </div>

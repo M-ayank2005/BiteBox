@@ -190,7 +190,7 @@ function ProfilePage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700">
+        <div className="flex border-b border-gray-200 dark:border-gray-700 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           <button
             onClick={() => setActiveTab("shopping")}
             className={`pb-4 px-6 font-bold text-sm flex items-center gap-2 border-b-2 transition ${

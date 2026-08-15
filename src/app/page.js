@@ -14,8 +14,7 @@ import {
   ShoppingCart, 
   ArrowRight,
   Flame,
-  Award,
-  Star
+  Award
 } from 'lucide-react'
 import { UserAuth } from './context/AuthContext' 
 import recipes from '../lib/Homepagerecipe.json'
@@ -228,16 +227,16 @@ export default function Home() {
       </div>
 
       {/* Customer Reviews & Feedback Section */}
-      <div className="max-w-5xl mx-auto glass-panel p-6 sm:p-12 space-y-6 sm:space-y-8 text-center">
+      <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
         <CustomerReviewCarousel />
 
-        <div className="pt-6 border-t border-slate-200/60 dark:border-zinc-800/60 flex flex-col items-center gap-3">
+        <div className="glass-panel p-6 sm:p-8 flex flex-col items-center gap-3 text-center">
           <p className="text-sm font-bold text-slate-700 dark:text-zinc-300">Enjoyed your experience on BiteBox?</p>
           <button
             onClick={() => router.push('/custoratings')}
-            className="glass-button-accent px-8 py-3 rounded-full text-sm font-bold shadow-md transition flex items-center gap-2"
+            className="glass-button-accent px-8 py-3 rounded-full text-sm font-bold shadow-md transition"
           >
-            <Star className="w-4 h-4 fill-current text-white" /> Rate Us & Leave a Review
+            Rate Us & Leave a Review
           </button>
         </div>
       </div>

@@ -60,13 +60,13 @@ const ContentRenderer = ({ content, servingMultiplier = 1 }) => {
 
               switch (block.type) {
                 case "header-one":
-                  return <h1 key={index} className="text-3xl font-bold mt-4 mb-2 text-yellow-500">{scaledText}</h1>;
+                  return <h1 key={index} className="text-3xl font-bold mt-4 mb-2 text-amber-500">{scaledText}</h1>;
                 case "header-two":
-                  return <h2 key={index} className="text-2xl font-semibold mt-3 mb-2 text-yellow-500">{scaledText}</h2>;
+                  return <h2 key={index} className="text-2xl font-semibold mt-3 mb-2 text-amber-500">{scaledText}</h2>;
                 case "header-three":
-                  return <h3 key={index} className="text-xl font-medium mt-2 mb-1 text-yellow-500">{scaledText}</h3>;
+                  return <h3 key={index} className="text-xl font-medium mt-2 mb-1 text-amber-500">{scaledText}</h3>;
                 case "blockquote":
-                  return <blockquote key={index} className="border-l-4 border-yellow-500 italic pl-4 my-3 text-gray-600 dark:text-gray-300">{scaledText}</blockquote>;
+                  return <blockquote key={index} className="border-l-4 border-amber-500 italic pl-4 my-3 text-gray-600 dark:text-gray-300">{scaledText}</blockquote>;
                 case "code-block":
                   return <pre key={index} className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm font-mono my-3">{scaledText}</pre>;
                 case "unordered-list-item":
@@ -301,10 +301,8 @@ const RecipeContent = () => {
   };
 
   return (
-    <div className={`min-h-screen py-12 px-4 transition-colors duration-300 ${
-      darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
-    }`}>
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-3xl overflow-hidden border dark:border-gray-700">
+    <div className="min-h-screen py-6 sm:py-12 px-4 transition-colors duration-300">
+      <div className="max-w-4xl mx-auto glass-panel overflow-hidden">
         {/* Cover Image Header */}
         <div className="relative h-[380px] sm:h-[450px] w-full">
           <Image
@@ -314,10 +312,10 @@ const RecipeContent = () => {
             objectFit="cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
           
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 space-y-2">
-            <span className="inline-block px-3.5 py-1.5 bg-yellow-500 text-white text-xs font-bold uppercase rounded-full shadow">
+            <span className="inline-block px-3.5 py-1.5 bg-amber-500 text-white text-xs font-bold uppercase rounded-full shadow">
               {recipe.category || "Recipe"}
             </span>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-white drop-shadow-md">
@@ -333,7 +331,7 @@ const RecipeContent = () => {
             <div className="space-y-1 text-sm sm:text-base text-gray-600 dark:text-gray-300">
               {recipe.username && (
                 <div className="flex items-center gap-2">
-                  <UserIcon className="w-4 h-4 text-yellow-500" />
+                  <UserIcon className="w-4 h-4 text-amber-500" />
                   <span>Created by <strong className="text-gray-900 dark:text-white">{recipe.username}</strong></span>
                 </div>
               )}
@@ -357,10 +355,10 @@ const RecipeContent = () => {
           </div>
 
           {/* Interactive Tools Panel: Serving Scaler, Cook Mode, Shopping List */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 rounded-2xl bg-yellow-500/10 border border-yellow-500/30">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 glass-card p-6">
             {/* Serving Scaler */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-yellow-600 dark:text-yellow-400 flex items-center gap-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
                 <Users className="w-4 h-4" /> Scale Recipe Servings
               </label>
               <div className="flex items-center gap-2">
@@ -370,8 +368,8 @@ const RecipeContent = () => {
                     onClick={() => setServings(qty)}
                     className={`px-3 py-1.5 rounded-xl font-bold text-xs transition ${
                       servings === qty
-                        ? "bg-yellow-500 text-white shadow"
-                        : "bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-yellow-100"
+                        ? "bg-amber-500 text-white shadow"
+                        : "bg-white/80 dark:bg-zinc-800/80 text-gray-700 dark:text-gray-200 hover:bg-amber-100 dark:hover:bg-amber-900/20"
                     }`}
                   >
                     {qty}x
@@ -384,7 +382,7 @@ const RecipeContent = () => {
             <div className="flex items-center justify-center">
               <button
                 onClick={() => setIsCookModeOpen(true)}
-                className="w-full py-3.5 px-6 rounded-xl font-extrabold text-sm bg-yellow-500 hover:bg-yellow-600 text-white shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-6 rounded-xl font-extrabold text-sm bg-amber-500 hover:bg-amber-600 text-white shadow-lg hover:shadow-xl transition transform active:scale-98 flex items-center justify-center gap-2"
               >
                 <ChefHat className="w-5 h-5" /> Start Interactive Cook Mode
               </button>
@@ -397,7 +395,7 @@ const RecipeContent = () => {
                 className={`w-full py-3.5 px-6 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 border shadow-sm ${
                   shoppingListAdded
                     ? "bg-green-600 text-white border-green-600"
-                    : "bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600 hover:border-yellow-500"
+                    : "bg-white/80 dark:bg-zinc-800/80 text-gray-800 dark:text-gray-100 border-gray-300 dark:border-zinc-700 hover:border-amber-500"
                 }`}
               >
                 {shoppingListAdded ? (
@@ -406,7 +404,7 @@ const RecipeContent = () => {
                   </>
                 ) : (
                   <>
-                    <ShoppingCart className="w-4 h-4 text-yellow-500" /> Save to Shopping List
+                    <ShoppingCart className="w-4 h-4 text-amber-500" /> Save to Shopping List
                   </>
                 )}
               </button>
@@ -416,11 +414,11 @@ const RecipeContent = () => {
           {/* Scaled Ingredients & Instructions Content */}
           <div className="space-y-4 pt-2">
             <div className="flex justify-between items-center border-b pb-2 dark:border-gray-700">
-              <h2 className="text-2xl font-bold text-yellow-500">
+              <h2 className="text-2xl font-bold text-amber-500">
                 Ingredients & Directions ({servings} Servings)
               </h2>
               {servingMultiplier !== 1 && (
-                <span className="text-xs font-bold bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 px-3 py-1 rounded-full">
+                <span className="text-xs font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400 px-3 py-1 rounded-full">
                   Scaled {servingMultiplier}x
                 </span>
               )}
@@ -432,7 +430,7 @@ const RecipeContent = () => {
           {/* YouTube Video Section */}
           {youtubeId && (
             <div className="pt-6 border-t dark:border-gray-700">
-              <h2 className="text-2xl font-bold text-yellow-500 mb-4">Watch Recipe Video</h2>
+              <h2 className="text-2xl font-bold text-amber-500 mb-4">Watch Recipe Video</h2>
               <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-lg border dark:border-gray-700">
                 <iframe
                   src={`https://www.youtube.com/embed/${youtubeId}`}
@@ -456,12 +454,12 @@ const RecipeContent = () => {
           {/* Cook Mode Header */}
           <div className="flex justify-between items-center border-b border-gray-800 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center text-white shadow">
+              <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white shadow">
                 <ChefHat className="w-6 h-6" />
               </div>
               <div>
                 <h2 className="text-lg sm:text-2xl font-extrabold line-clamp-1">{recipe.title}</h2>
-                <p className="text-xs text-yellow-400 font-semibold">Cooking Assistant • Step {currentStepIndex + 1} of {stepsList.length}</p>
+                <p className="text-xs text-amber-400 font-semibold">Cooking Assistant • Step {currentStepIndex + 1} of {stepsList.length}</p>
               </div>
             </div>
 
@@ -478,7 +476,7 @@ const RecipeContent = () => {
             {/* Step Navigation & Big Text Display */}
             <div className="lg:col-span-2 space-y-6 flex flex-col justify-center">
               <div className="bg-gray-900/90 border border-gray-800 p-8 sm:p-12 rounded-3xl shadow-2xl min-h-[250px] flex flex-col justify-center space-y-4">
-                <span className="text-xs font-bold tracking-widest text-yellow-500 uppercase">
+                <span className="text-xs font-bold tracking-widest text-amber-500 uppercase">
                   Instruction Step #{currentStepIndex + 1}
                 </span>
                 <p className="text-xl sm:text-3xl font-medium leading-relaxed">
@@ -506,7 +504,7 @@ const RecipeContent = () => {
                   onClick={() => setCurrentStepIndex(prev => Math.min(stepsList.length - 1, prev + 1))}
                   disabled={currentStepIndex === stepsList.length - 1}
                   className={`px-6 py-3.5 rounded-2xl font-bold flex items-center gap-2 transition ${
-                    currentStepIndex === stepsList.length - 1 ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-yellow-500 hover:bg-yellow-600 text-white shadow-lg"
+                    currentStepIndex === stepsList.length - 1 ? "bg-gray-800 text-gray-600 cursor-not-allowed" : "bg-amber-500 hover:bg-amber-600 text-white shadow-lg"
                   }`}
                 >
                   Next Step <ChevronRight className="w-5 h-5" />
@@ -517,13 +515,13 @@ const RecipeContent = () => {
             {/* Sidebar: Kitchen Countdown Timer */}
             <div className="bg-gray-900/90 border border-gray-800 p-6 rounded-3xl flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <h3 className="text-lg font-bold text-yellow-500 flex items-center gap-2">
+                <h3 className="text-lg font-bold text-amber-500 flex items-center gap-2">
                   <Clock className="w-5 h-5" /> Kitchen Timer
                 </h3>
 
                 {/* Big Timer Display */}
                 <div className="bg-black/60 p-6 rounded-2xl text-center border border-gray-800">
-                  <span className="font-mono text-5xl font-extrabold tracking-wider text-yellow-400">
+                  <span className="font-mono text-5xl font-extrabold tracking-wider text-amber-400">
                     {formatTimerTime(timerSeconds)}
                   </span>
                 </div>
@@ -542,7 +540,7 @@ const RecipeContent = () => {
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
                   disabled={timerSeconds === 0}
                   className={`flex-1 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition ${
-                    isTimerRunning ? "bg-red-600 hover:bg-red-700 text-white" : "bg-yellow-500 hover:bg-yellow-600 text-white"
+                    isTimerRunning ? "bg-red-600 hover:bg-red-700 text-white" : "bg-amber-500 hover:bg-amber-600 text-white"
                   }`}
                 >
                   {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
