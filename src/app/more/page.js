@@ -28,12 +28,12 @@ const FeaturesPage = () => {
 
   return (
     <>
-    <div className={`min-h-screen pb-24 px-7 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"}`}>
+    <div className={`min-h-screen pb-24 px-7 transition-colors duration-300 ${darkMode ? "bg-zinc-950 text-white" : "bg-slate-50 text-slate-900"}`}>
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
           <div className="text-center">
-            <ChefHat className="w-16 h-16 mx-auto mb-8 text-blue-500" />
+            <ChefHat className="w-16 h-16 mx-auto mb-8 text-amber-500" />
             <h1 className="text-4xl md:text-6xl font-bold mb-3 ">
               Discover Our Features
             </h1>
@@ -48,9 +48,9 @@ const FeaturesPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="space-y-32">
           {features.map((feature, index) => (
-            <div key={feature.title} className="grid md:grid-cols-2 gap-12 items-center">
+            <div key={feature.title} className="grid md:grid-cols-2 gap-12 items-center glass-panel p-8 sm:p-12">
               <div className={`space-y-6 ${index % 2 === 1 ? "md:order-2" : ""}`}>
-                <div className={`inline-block p-3 rounded-2xl ${darkMode ? "bg-blue-500/10" : "bg-blue-50"}`}>
+                <div className="inline-block p-4 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-500 shadow-sm">
                   {feature.icon}
                 </div>
                 <h2 className="text-3xl font-bold">{feature.title}</h2>
@@ -59,7 +59,7 @@ const FeaturesPage = () => {
                 </p>
                 <button 
                   onClick={() => router.push(feature.link)}
-                  className="group flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all"
+                  className="group flex items-center gap-2 px-8 py-3.5 rounded-full font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-md transition-all transform active:scale-95"
                 >
                   Explore
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -72,7 +72,7 @@ const FeaturesPage = () => {
                     alt={feature.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className={`absolute inset-0 ${darkMode ? "bg-gradient-to-br from-blue-500/20" : "bg-gradient-to-br from-blue-500/10"}`} />
+                  <div className={`absolute inset-0 ${darkMode ? "bg-gradient-to-br from-amber-500/20" : "bg-gradient-to-br from-amber-500/10"}`} />
                 </div>
               </div>
             </div>
