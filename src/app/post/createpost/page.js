@@ -142,8 +142,9 @@ function CreatePost() {
           </button>
         </div>
       </div>
-      </div>
-    )
-  }
+    </div>
+  </div>
+  )
+}
 
-  export default CreatePost
+export default CreatePost
