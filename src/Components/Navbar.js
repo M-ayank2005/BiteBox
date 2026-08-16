@@ -62,7 +62,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-1">
                         <NavLink href="/">Home</NavLink>
                         <NavLink href="/recipes">Recipes</NavLink>
-                        <NavLink href="/menu">AI Diet & Menu</NavLink>
+                        <NavLink href="/menu">HealthyAI</NavLink>
                         <NavLink href="/more">Community</NavLink>
 
                         <div className="pl-3 pr-1">
@@ -105,7 +105,7 @@ const Navbar = () => {
                     <div className="px-4 pt-3 pb-4 space-y-2 flex flex-col items-stretch font-semibold">
                         <NavLink href="/">Home</NavLink>
                         <NavLink href="/recipes">Recipes</NavLink>
-                        <NavLink href="/menu">AI Diet & Menu</NavLink>
+                        <NavLink href="/menu">HealthyAI</NavLink>
                         <NavLink href="/more">Community</NavLink>
                                         
                         {!loading && (

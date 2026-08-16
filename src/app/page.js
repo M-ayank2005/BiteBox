@@ -189,7 +189,7 @@ export default function Home() {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-zinc-800/60 flex items-center text-xs font-bold text-amber-500 group">
-                  Open Feature <ArrowRight className="w-3.5 h-3.5 ml-1 transition group-hover:translate-x-1" />
+                  Explore <ArrowRight className="w-3.5 h-3.5 ml-1 transition group-hover:translate-x-1" />
                 </div>
               </div>
             );

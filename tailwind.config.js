@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        amber: {
+          500: '#FBBF24', // Lighter, softer yellow-orange (originally amber-400)
+          600: '#F59E0B', // Slightly darker for hover states (originally amber-500)
+        }
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
