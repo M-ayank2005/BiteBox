@@ -11,8 +11,8 @@ import loader from '@/Components/loader';
 // Dynamically import ReactQuill to prevent SSR window/document issues
 const ReactQuill = dynamic(
   async () => {
-    await import('react-quill/dist/quill.snow.css');
-    return import('react-quill');
+    await import('react-quill-new/dist/quill.snow.css');
+    return import('react-quill-new');
   },
   { 
     ssr: false,
